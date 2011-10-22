@@ -4,7 +4,7 @@
 DESCR_INT idt[0xA];			/* IDT de 10 entradas*/
 IDTR idtr;				/* IDTR */
 
-int tickpos=640;
+int tickpos=0;
 
 void int_08() {
 
@@ -13,11 +13,16 @@ void int_08() {
 
 }
 
+void int_09(){
+	
+}
+void int_80(){
+	__asm__("");	
+}
 /**********************************************
 kmain() 
 Punto de entrada de cóo C.
 *************************************************/
-
 kmain() 
 {
 
@@ -42,8 +47,9 @@ kmain()
 
 	_Cli();
 /* Habilito interrupcion de timer tick*/
-
-        _mascaraPIC1(0xFE);
+	
+	printf("fede puto");
+        _mascaraPIC1(0xFF);
         _mascaraPIC2(0xFF);
         
 	_Sti();
