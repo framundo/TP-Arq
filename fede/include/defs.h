@@ -53,6 +53,14 @@ typedef struct {
   dword base;
 } IDTR;
 
+/* Registros */
+typedef struct registers
+{
+    /*unsigned int ds;*/
+    unsigned int edi, esi, ebp, esp, ebx, edx, ecx, eax; // pusha pushs.
+    /*unsigned int int_no, err_code;*/
+    unsigned int eip, cs, eflags, useresp, ss; // processor automatic pushs.
+} REG;
 
 #endif
 

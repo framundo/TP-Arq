@@ -1,11 +1,15 @@
 GLOBAL  _read_msw,_lidt
 GLOBAL  _int_08_hand
 GLOBAL  _int_80_hand
+GLOBAL  _int_09_hand
+GLOBAL  _IO_in
+GLOBAL	_IO_out
 GLOBAL  __write
 GLOBAL  _mascaraPIC1,_mascaraPIC2,_Cli,_Sti
 GLOBAL  _debug
 
 EXTERN  int_08
+EXTERN  int_09
 EXTERN  int_80
 
 
@@ -70,27 +74,36 @@ _int_08_hand:				; Handler de INT 8 ( Timer tick)
         iret
 
 _int_80_hand:				; Handler de INT 80 ( System calls)
-        push    ds
-        push    es                      ; Se salvan los registros
+        push ebp
+		mov ebp,esp
+                             ; Se salvan los registros
         pusha                           ; Carga de DS y ES con el valor del selector
-        mov     ax, 10h			; a utilizar.
-        mov     ds, ax
-        mov     es, ax
 
-	push ebp
-	mov ebp,esp
-
-	push	ecx
-	push 	ebx
         call    int_80
 
-	mov esp,ebp
-	pop ebp
-           
-	popa                            
-        pop     es
-        pop     ds
+		mov esp,ebp
+		pop ebp
+          
         iret
+        
+_int_09_hand:				; Handler de INT 09 (Teclado)
+        push ebp
+		mov ebp,esp
+		pusha 
+
+        call    int_09
+		mov	al,20h			; Envio de EOI generico al PIC
+		out	20h,al
+		
+		popa
+		mov esp,ebp
+		pop ebp
+		
+		
+          
+        iret
+        
+;SYSTEM CALLS
 
 __write:
 	mov ecx, [esp+8]
@@ -104,6 +117,16 @@ __read:
 	int 080h
 	ret
 
+_IO_in:
+	mov dx, [esp+4]
+	in al, dx
+	ret
+	
+_IO_out:
+	mov al, [esp+4]
+	mov dx, [esp+8]
+	out dx,al
+	ret
 
 ; Debug para el BOCHS, detiene la ejecució; Para continuar colocar en el BOCHSDBG: set $eax=0
 ;
