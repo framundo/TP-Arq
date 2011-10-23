@@ -1,9 +1,12 @@
 GLOBAL  _read_msw,_lidt
 GLOBAL  _int_08_hand
+GLOBAL  _int_80_hand
+GLOBAL  __write
 GLOBAL  _mascaraPIC1,_mascaraPIC2,_Cli,_Sti
 GLOBAL  _debug
 
 EXTERN  int_08
+EXTERN  int_80
 
 
 SECTION .text
@@ -54,7 +57,7 @@ _lidt:				; Carga el IDTR
 _int_08_hand:				; Handler de INT 8 ( Timer tick)
         push    ds
         push    es                      ; Se salvan los registros
-        pusha                           ; Carga de DS y ES con el valor del 						;selector
+        pusha                           ; Carga de DS y ES con el valor del selector
         mov     ax, 10h			; a utilizar.
         mov     ds, ax
         mov     es, ax                  
@@ -66,12 +69,46 @@ _int_08_hand:				; Handler de INT 8 ( Timer tick)
         pop     ds
         iret
 
+_int_80_hand:				; Handler de INT 80 ( System calls)
+        push    ds
+        push    es                      ; Se salvan los registros
+        pusha                           ; Carga de DS y ES con el valor del selector
+        mov     ax, 10h			; a utilizar.
+        mov     ds, ax
+        mov     es, ax
+
+	push ebp
+	mov ebp,esp
+
+	push	ecx
+	push 	ebx
+        call    int_80
+
+	mov esp,ebp
+	pop ebp
+           
+	popa                            
+        pop     es
+        pop     ds
+        iret
+
+__write:
+	mov ecx, [esp+8]
+	mov ebx, 1
+	int 080h
+	ret
+
+__read:
+	mov ecx, [esp+8]
+	mov ebx, 2
+	int 080h
+	ret
 
 
 ; Debug para el BOCHS, detiene la ejecució; Para continuar colocar en el BOCHSDBG: set $eax=0
 ;
 
-	
+
 _debug:
         push    bp
         mov     bp, sp
@@ -82,20 +119,3 @@ vuelve:	mov     ax, 1
 	pop	ax
 	pop     bp
         retn
-
-
-__read:
-    	mov ecx, [esp+8]
-	mov eax,3
-	mov ebx, [esp+4]
-	mov edx, [esp+12]
-	int 80h
-	ret
-
-__write:
-    	mov ecx, [esp+8]
-	mov eax,4
-	mov ebx, [esp+4]
-	mov edx, [esp+12]
-	int 80h
-	ret

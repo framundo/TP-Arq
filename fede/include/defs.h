@@ -53,7 +53,6 @@ typedef struct {
   dword base;
 } IDTR;
 
-     
 
 #endif
 

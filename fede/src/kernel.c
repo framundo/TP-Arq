@@ -1,38 +1,40 @@
 #include "../include/kasm.h"
 #include "../include/defs.h"
 
-DESCR_INT idt[0xA];			/* IDT de 10 entradas*/
+DESCR_INT idt[0xFF];			/* IDT de 10 entradas*/
 IDTR idtr;				/* IDTR */
 
 int tickpos=0;
 
 void int_08() {
-
     char *video = (char *) 0xb8000;
-    video[tickpos+=2]='C';
-
+    video[tickpos+=2]='*';
 }
 
-void int_09(){
+/*INT 80 rutines*/
+
+void write(char* c){
+    char *video = (char *) 0xb8000;
+    video[tickpos+=2]=*c;
+}
+
+void read(char* c){
 	
 }
-void int_80(){
-	__asm__("");	
+
+void int_80(int n,char *c) {
+    if(n==1){
+	write(c);
+    }   
 }
+
 /**********************************************
 kmain() 
 Punto de entrada de cóo C.
 *************************************************/
 
-void write(char c){
-	char *video = (char *) 0xb8000;
-	video[tickpos++]=c;
-	video[tickpos++]=0x07;
-}
-
 kmain() 
 {
-
         int i,num;
 
 /* Borra la pantalla. */ 
@@ -43,7 +45,8 @@ kmain()
 /* CARGA DE IDT CON LA RUTINA DE ATENCION DE IRQ0    */
 
         setup_IDT_entry (&idt[0x08], 0x08, (dword)&_int_08_hand, ACS_INT, 0);
-	
+	setup_IDT_entry (&idt[0x80], 0x08, (dword)&_int_80_hand, ACS_INT, 0);
+
 /* Carga de IDTR    */
 
 	idtr.base = 0;  
@@ -54,15 +57,18 @@ kmain()
 
 	_Cli();
 /* Habilito interrupcion de timer tick*/
-	
-	printf("fede puto");
-        _mascaraPIC1(0xFF);
+
+        _mascaraPIC1(0xFE);
         _mascaraPIC2(0xFF);
         
-	_Sti();
+	_Sti();	
 
+	/*Test*/
+
+	printf("Hola mundo");
         while(1)
         {
+
         }
 	
 }

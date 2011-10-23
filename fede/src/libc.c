@@ -41,13 +41,12 @@ void setup_IDT_entry (DESCR_INT *item, byte selector, dword offset, byte access,
 }
 
 void putc(char c){
-	__write(1, &c, 1);
+	__write(1,&c,1);
 }
+
 void printf(char* string){
 	int i;
 	for(i=0;string[i];i++){
 		putc(string[i]);
 	}
 }
-
-
