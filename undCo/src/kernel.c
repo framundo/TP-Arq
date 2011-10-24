@@ -1,31 +1,12 @@
 #include "../include/kasm.h"
 #include "../include/defs.h"
+#include "keyboard.c"
+#include "systemcalls.c"
+#include "timertick.c"
+#include "shell.c"
 
 DESCR_INT idt[0xFF];			/* IDT de 10 entradas*/
 IDTR idtr;				/* IDTR */
-
-int tickpos=0;
-
-void int_08() {
-    char *video = (char *) 0xb8000;
-    video[tickpos+=2]='*';
-}
-
-/*INT 80 rutines*/
-
-void write(char* c){
-    char *video = (char *) 0xb8000;
-    video[tickpos+=2]=*c;
-}
-
-void read(char* c){
-	
-}
-
-void int_80(int n,char *c) {
-    int80_rutine sub_rutines[]={0,&write,&read};
-    sub_rutines[n](c);    
-}
 
 /**********************************************
 kmain() 
@@ -44,7 +25,8 @@ kmain()
 /* CARGA DE IDT CON LA RUTINA DE ATENCION DE IRQ0    */
 
         setup_IDT_entry (&idt[0x08], 0x08, (dword)&_int_08_hand, ACS_INT, 0);
-	setup_IDT_entry (&idt[0x80], 0x08, (dword)&_int_80_hand, ACS_INT, 0);
+		setup_IDT_entry (&idt[0x80], 0x08, (dword)&_int_80_hand, ACS_INT, 0);
+		setup_IDT_entry (&idt[0x09], 0x08, (dword)&_int_09_hand, ACS_INT, 0);
 
 /* Carga de IDTR    */
 
@@ -57,18 +39,16 @@ kmain()
 	_Cli();
 /* Habilito interrupcion de timer tick*/
 
-        _mascaraPIC1(0xFE);
+        _mascaraPIC1(0xFC);
         _mascaraPIC2(0xFF);
         
 	_Sti();	
 
 	/*Test*/
-
-	printf("Hola mundo");
+	prinf("tengo %d amigos", 10);
+	shell();
         while(1)
         {
-
+			
         }
-	
 }
-

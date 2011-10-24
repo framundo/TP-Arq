@@ -11,11 +11,18 @@ void k_clear_screen()
 {
 	char *vidmem = (char *) 0xb8000;
 	unsigned int i=0;
-	while(i < (80*25*2))
+	while(i < (80*24*2))
 	{
 		vidmem[i]=' ';
 		i++;
 		vidmem[i]=WHITE_TXT;
+		i++;
+	};
+	while(i < (80*25*2))
+	{
+		vidmem[i]=' ';
+		i++;
+		vidmem[i]=BLACK_TXT;
 		i++;
 	};
 }
@@ -40,13 +47,89 @@ void setup_IDT_entry (DESCR_INT *item, byte selector, dword offset, byte access,
   item->cero = cero;
 }
 
-void putc(char c){
+char getchar(){
+	char c;
+	do{
+		__read(0,&c,1);
+	}while(c==0);
+	return c;
+}
+
+void putchar(char c){
 	__write(1,&c,1);
 }
 
-void printf(char* string){
+void prints(char* string){
 	int i;
 	for(i=0;string[i];i++){
-		putc(string[i]);
+		putchar(string[i]);
 	}
+}
+
+void printf(char * format, ...)
+{	
+	char buffer[50];
+	va_list args;
+	va_start(args, format);
+	while(*format!=0)
+	{
+		if(*format=='%')
+		{
+			format++;
+			switch(*format)
+			{
+				case 'd':
+					prints(itoa(va_arg(args, int), buffer);
+					break;				
+			}
+		}
+		else
+		{
+			putchar(*format);
+		}					
+	}
+
+	va_end(args);
+}
+
+char* itoa(int val, char* buffer)
+{	
+	int pos=0, start;
+	char c;
+	if(val<0){
+		buffer[pos++]='-';
+		val=-val;
+	}
+	start=pos;
+	while(val!=0){
+		buffer[pos++]=val%10 + '0';
+		val/=10;
+	}
+	while(pos>start)
+	{
+		c=buffer[start];
+		buffer[start]=buffer[pos];
+		buffer[pos]=c;
+		pos--;
+		start++;
+	}
+	return buffer;
+}
+
+char gethour(){
+	char h;
+	__hour(&h);
+	/* ZONA GMT-3*/
+	h-=3;
+	if(h<0){
+		h+=24;
+	}
+	
+	return h;
+}
+
+char getmin(){
+	char m;
+	__min(&m);
+	return m;
 }
