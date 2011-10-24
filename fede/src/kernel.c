@@ -1,8 +1,9 @@
 #include "../include/kasm.h"
 #include "../include/defs.h"
-#include "timertick.c"
-#include "systemcalls.c"
 #include "keyboard.c"
+#include "systemcalls.c"
+#include "timertick.c"
+#include "shell.c"
 
 DESCR_INT idt[0xFF];			/* IDT de 10 entradas*/
 IDTR idtr;				/* IDTR */
@@ -44,11 +45,9 @@ kmain()
 	_Sti();	
 
 	/*Test*/
-
-	printf("Hola mundo");
+	shell();
         while(1)
         {
-
+			
         }
-	
 }

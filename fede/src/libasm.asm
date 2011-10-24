@@ -5,6 +5,9 @@ GLOBAL  _int_09_hand
 GLOBAL  _IO_in
 GLOBAL	_IO_out
 GLOBAL  __write
+GLOBAL  __read
+GLOBAL  __hour
+GLOBAL  __min
 GLOBAL  _mascaraPIC1,_mascaraPIC2,_Cli,_Sti
 GLOBAL  _debug
 
@@ -116,6 +119,18 @@ __read:
 	mov ebx, 2
 	int 080h
 	ret
+	
+__hour:
+	mov ecx, [esp+4]
+	mov ebx, 3
+	int 080h
+	ret
+	
+__min:
+	mov ecx, [esp+4]
+	mov ebx, 4
+	int 080h
+	ret
 
 _IO_in:
 	mov dx, [esp+4]
@@ -123,8 +138,8 @@ _IO_in:
 	ret
 	
 _IO_out:
-	mov al, [esp+4]
-	mov dx, [esp+8]
+	mov al, [esp+8]
+	mov dx, [esp+4]
 	out dx,al
 	ret
 

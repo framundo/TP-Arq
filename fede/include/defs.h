@@ -61,6 +61,5 @@ typedef struct registers
     /*unsigned int int_no, err_code;*/
     unsigned int eip, cs, eflags, useresp, ss; // processor automatic pushs.
 } REG;
-
 #endif
 

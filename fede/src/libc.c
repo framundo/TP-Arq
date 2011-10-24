@@ -11,6 +11,13 @@ void k_clear_screen()
 {
 	char *vidmem = (char *) 0xb8000;
 	unsigned int i=0;
+	while(i < (80*24*2))
+	{
+		vidmem[i]=' ';
+		i++;
+		vidmem[i]=BLACK_TXT;
+		i++;
+	};
 	while(i < (80*25*2))
 	{
 		vidmem[i]=' ';
@@ -40,13 +47,39 @@ void setup_IDT_entry (DESCR_INT *item, byte selector, dword offset, byte access,
   item->cero = cero;
 }
 
-void putc(char c){
+char getchar(){
+	char c;
+	do{
+		__read(0,&c,1);
+	}while(c==0);
+	return c;
+}
+
+void putchar(char c){
 	__write(1,&c,1);
 }
 
 void printf(char* string){
 	int i;
 	for(i=0;string[i];i++){
-		putc(string[i]);
+		putchar(string[i]);
 	}
+}
+
+char gethour(){
+	char h;
+	__hour(&h);
+	/* ZONA GMT-3*/
+	h-=3;
+	if(h<0){
+		h+=24;
+	}
+	
+	return h;
+}
+
+char getmin(){
+	char m;
+	__min(&m);
+	return m;
 }

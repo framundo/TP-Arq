@@ -40,4 +40,6 @@ size_t __read(int fd, void* buffer, size_t count);
 
 void _IO_in(void* address);
 
+void __hour(char* hp);
+
 #endif
