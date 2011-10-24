@@ -1,5 +1,5 @@
 #include "../include/kc.h"
-
+#include "../include/stdio.h"
 
 /***************************************************************
 *k_clear_screen
@@ -65,33 +65,6 @@ void prints(char* string){
 		putchar(string[i]);
 	}
 }
-
-void printf(char * format, ...)
-{	
-	char buffer[50];
-	va_list args;
-	va_start(args, format);
-	while(*format!=0)
-	{
-		if(*format=='%')
-		{
-			format++;
-			switch(*format)
-			{
-				case 'd':
-					prints(itoa(va_arg(args, int), buffer);
-					break;				
-			}
-		}
-		else
-		{
-			putchar(*format);
-		}					
-	}
-
-	va_end(args);
-}
-
 char* itoa(int val, char* buffer)
 {	
 	int pos=0, start;
@@ -115,6 +88,34 @@ char* itoa(int val, char* buffer)
 	}
 	return buffer;
 }
+void printf(char * format, ...)
+{	
+	char buffer[50];
+	va_list args;
+	va_start(args, format);
+	while(*format!=0)
+	{
+		if(*format=='%')
+		{
+			format++;
+			switch(*format)
+			{
+				case 'd':
+					prints(itoa(va_arg(args, int), buffer));
+					break;				
+			}
+		}
+		else
+		{
+			putchar(*format);
+		}
+	format++;					
+	}
+
+	va_end(args);
+}
+
+
 
 char gethour(){
 	char h;

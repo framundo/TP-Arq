@@ -45,7 +45,6 @@ kmain()
 	_Sti();	
 
 	/*Test*/
-	prinf("tengo %d amigos", 10);
 	shell();
         while(1)
         {
