@@ -1,3 +1,5 @@
+/* DEFINICIONES PARA ARGUMENTOS VARIABLES */
+
 #ifndef STDARG_H
 #define STDARG_H
 
@@ -35,3 +37,10 @@ typedef char* va_list;
 
 #endif 
 #endif 
+
+#ifndef IO
+#define IO
+#define stdin 0
+#define stdout 1
+
+#endif

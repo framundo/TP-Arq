@@ -47,16 +47,17 @@ void setup_IDT_entry (DESCR_INT *item, byte selector, dword offset, byte access,
   item->cero = cero;
 }
 
+void putchar(char c){
+	__write(1,&c,1);
+}
+
 char getchar(){
 	char c;
 	do{
 		__read(0,&c,1);
 	}while(c==0);
+	putchar(c);
 	return c;
-}
-
-void putchar(char c){
-	__write(1,&c,1);
 }
 
 void prints(char* string){
@@ -78,6 +79,7 @@ char* itoa(int val, char* buffer)
 		buffer[pos++]=val%10 + '0';
 		val/=10;
 	}
+	buffer[pos--]=0;
 	while(pos>start)
 	{
 		c=buffer[start];
@@ -114,8 +116,6 @@ void printf(char * format, ...)
 
 	va_end(args);
 }
-
-
 
 char gethour(){
 	char h;
