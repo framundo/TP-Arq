@@ -33,12 +33,12 @@ void shell(){
 		}while(c!='\n');
 		buffer[i-1]=0;
 		if(substr("echo ", buffer)){
-			printf(buffer+5);
+			printf("%s\n",buffer+5);
 		}
 		else if(substr("color ", buffer)){
 			color(buffer+6);
 		}
-		else if(strcmp("time",buffer)){
+		else if(strcmp("time",buffer)==0){
 			printf("%d:%d\n",gethour(),getmin());
 		}
 		else{
