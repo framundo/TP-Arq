@@ -228,3 +228,10 @@ int scanf(const char* format, ...){
 	va_end(args);
 	return count;
 }
+
+void memcpy(void* dest, void* source, int count){
+	int i;
+	for(i=0;i<count;i++){
+		*(char*)(dest+i)=*(char*)(source+i);
+	}
+}

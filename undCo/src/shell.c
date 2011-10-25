@@ -6,16 +6,25 @@ void color(char* color_name){
 	char color;
 	if(strcmp("black",color_name)==0){
 		color=0x70;
-		__setcolor(&color);
 	}
+	else{
+		printf("Invalid color name\n");
+		return;
+	}
+	__setcolor(&color);
 }
 
 void shell(){
 	char c;
 	char buffer[MAX_CMD_SIZE];
 	int i;
+	char shell_color=0x05;
+	char user_color=0x07;
+																					
 	while(1){
+		__setcolor(&shell_color);
 		printf("Shell->: ");
+		__setcolor(&user_color);
 		i=0;
 		do{
 			c=getchar();
