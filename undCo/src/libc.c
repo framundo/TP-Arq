@@ -104,7 +104,13 @@ void printf(char * format, ...)
 			{
 				case 'd':
 					prints(itoa(va_arg(args, int), buffer));
-					break;				
+					break;	
+				case 's':
+					prints(va_arg(args,char*));
+					break;
+				case 'c':
+					putchar(va_arg(args,char));
+					break;
 			}
 		}
 		else
@@ -119,13 +125,7 @@ void printf(char * format, ...)
 
 char gethour(){
 	char h;
-	__hour(&h);
-	/* ZONA GMT-3*/
-	h-=3;
-	if(h<0){
-		h+=24;
-	}
-	
+	__hour(&h);	
 	return h;
 }
 
