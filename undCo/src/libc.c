@@ -90,6 +90,35 @@ char* itoa(int val, char* buffer)
 	}
 	return buffer;
 }
+
+int pow(int b,int e){
+	int i;
+	int ans=1;
+	for(i=0;i<e;i++){
+		ans*=b;
+	}
+	return ans;
+}
+
+int strlen(char* s){
+	int count=0;
+	int i;
+	for(i=0;s[i];i++){
+		count++;
+	}
+	return count;
+}
+
+int atoi(char* a){
+	int i;
+	int number=0;
+	int len=strlen(a);
+	for(i=0;a[i];i++){
+		number+=(a[i]-'0')*pow(10,len-i-1);
+	}
+	return number;
+}
+
 void printf(char * format, ...)
 {	
 	char buffer[50];
@@ -126,6 +155,7 @@ void printf(char * format, ...)
 char gethour(){
 	char h;
 	__hour(&h);	
+	h-=3;
 	return h;
 }
 
@@ -133,4 +163,47 @@ char getmin(){
 	char m;
 	__min(&m);
 	return m;
+}
+
+char* gets(char* buffer){
+	do{
+		*buffer=getchar();
+	}while(*buffer++!=' ');
+	*(buffer-1)=0;
+	return buffer;
+}
+
+int scanf(const char* format, ...){
+	char buffer[50];
+	int count;
+	va_list args;
+	va_start(args, format);
+	void* p;
+	while(*format!=0)
+	{
+		if(*format=='%')
+		{
+			format++;
+			p=va_arg(args,void*);
+			switch(*format)
+			{
+				case 'c':
+					*(char*)p=getchar();
+					count++;
+					break;
+				case 's':
+					gets((char*)p);
+					count++;
+					break;
+				case 'd':
+					gets(buffer);
+					*(int*)p=atoi(buffer);
+					count++;
+					break;
+			}
+		}
+	format++;					
+	}
+	va_end(args);
+	return count;
 }
