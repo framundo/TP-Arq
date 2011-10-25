@@ -1,12 +1,49 @@
 /* SHELL */
 
+#define MAX_CMD_SIZE 40
+
+void color(char* color_name){
+	char color;
+	if(strcmp("black",color_name)==0){
+		color=0x70;
+		__setcolor(&color);
+	}
+}
+
 void shell(){
-	printf("Shell->: ");
+	char c;
+	char buffer[MAX_CMD_SIZE];
+	int i;
 	while(1){
-		char c;
-		c=getchar();
-		if(c=='\n'){
-			printf("Shell->: ");
+		printf("Shell->: ");
+		i=0;
+		do{
+			c=getchar();
+			if(c=='\b'){
+				if(i>0){
+					i--;
+					putchar(c);
+				}
+			}
+			else{
+				putchar(c);
+				buffer[i]=c;
+				i++;
+			}
+		}while(c!='\n');
+		buffer[i-1]=0;
+		if(substr("echo ", buffer)){
+			printf(buffer+5);
+		}
+		else if(substr("color ", buffer)){
+			color(buffer+6);
+		}
+		else if(strcmp("time",buffer)){
+			printf("%d:%d\n",gethour(),getmin());
+		}
+		else{
+			printf("Command not found\n");
 		}
 	}
 }
+

@@ -8,6 +8,7 @@ GLOBAL  __write
 GLOBAL  __read
 GLOBAL  __hour
 GLOBAL  __min
+GLOBAL  __setcolor
 GLOBAL  _mascaraPIC1,_mascaraPIC2,_Cli,_Sti
 GLOBAL  _debug
 
@@ -129,6 +130,12 @@ __hour:
 __min:
 	mov ecx, [esp+4]
 	mov ebx, 4
+	int 080h
+	ret
+
+__setcolor:
+	mov ecx, [esp+4]
+	mov ebx, 5
 	int 080h
 	ret
 

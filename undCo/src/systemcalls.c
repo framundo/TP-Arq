@@ -29,10 +29,16 @@ void int_80(REG registers) {
 			c=(char*)registers.ecx;
 			min(c);
 			break;
+		case 5:
+			c=(char*)registers.ecx;
+			setcolor(*c);
+			break;
 	}  
 }
 
 /* SCREEN FUNCTIONS */
+
+char current_color=0x07;
 
 int cursor_index(){
 	return (cursor_y * WIDTH + cursor_x);
@@ -62,6 +68,7 @@ void write(char c){
 	}
     else {
 		video[cursor_index()*2]=c;
+		video[cursor_index()*2+1]=current_color;
 		cursor_x++;
 	}
     
@@ -71,6 +78,10 @@ void write(char c){
 		cursor_x=0;
 	}
 	update_cursor();
+}
+
+void setcolor(char c){
+	current_color=c;
 }
 
 /* BUFFER FUNCTIONS */

@@ -51,12 +51,33 @@ void putchar(char c){
 	__write(1,&c,1);
 }
 
+int strcmp(char* str1, char* str2){
+	int ans;
+	int i;
+	for(i=0; str1[i]||str2[i];i++){
+		ans=str1[i]-str2[i];
+		if(ans!=0){
+			return ans;
+		}
+	}
+	return 0;
+}
+
+int substr(char* str1, char* str2){
+	int i;
+	for(i=0; str1[i];i++){
+		if(str1[i]!=str2[i]){
+			return 0;
+		}
+	}
+	return 1;
+}
+
 char getchar(){
 	char c;
 	do{
 		__read(0,&c,1);
 	}while(c==0);
-	putchar(c);
 	return c;
 }
 
