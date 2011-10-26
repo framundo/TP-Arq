@@ -2,17 +2,17 @@
 
 #define MAX_CMD_SIZE 40
 
-void color(char* color_name){
-	char color;
+void color(char* color_name, char * color_change){
 	if(strcmp("black",color_name)==0){
-		color=0x70;
+		*color_change=0x70;
 	}
 	else{
 		printf("Invalid color name\n");
 		return;
 	}
-	__setcolor(&color);
 }
+
+
 
 void shell(){
 	char c;
@@ -45,7 +45,7 @@ void shell(){
 			printf("%s\n",buffer+5);
 		}
 		else if(substr("color ", buffer)){
-			color(buffer+6);
+			color(buffer+6, &user_color);
 		}
 		else if(strcmp("time",buffer)==0){
 			printf("%d:%d\n",gethour(),getmin());
