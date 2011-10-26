@@ -12,28 +12,32 @@ int cursor_y=0;
 void int_80(REG registers) {
 	//while(1){};
 	char *c;
+	int i;
 	switch(registers.ebx){
 		case 1:
 			c=(char*)registers.ecx;
-			write(*c);
+			sys_write(*c);
 			break;
 		case 2:
 			c=(char*)registers.ecx;
-			read(c);
+			sys_read(c);
 			break;
 		case 3:
 			c=(char*)registers.ecx;
-			hour(c);
+			sys_hour(c);
 			break;
 		case 4:
 			c=(char*)registers.ecx;
-			min(c);
+			sys_min(c);
 			break;
 		case 5:
 			c=(char*)registers.ecx;
-			setcolor(*c);
+			sys_setcolor(*c);
 			break;
-	}  
+		/*case 6:
+			i=(int)registers.ecx;
+			registers.eax=sys_malloc(i);
+	*/}  
 }
 
 /* SCREEN FUNCTIONS */
@@ -54,7 +58,7 @@ void update_cursor(void)
     _IO_out(0x3D5, index);
 }
 
-void write(char c){
+void sys_write(char c){
     char *video = (char *) 0xb8000;
     if(c=='\n'){
 		cursor_y++;
@@ -80,26 +84,28 @@ void write(char c){
 	update_cursor();
 }
 
-void setcolor(char c){
+void sys_setcolor(char c){
 	current_color=c;
 }
 
 /* BUFFER FUNCTIONS */
 
-void read(char *c){
+void sys_read(char *c){
 	*c=buffer_getchar();
 }
 
 /* TIME FUNCTIONS */
 
-void hour(char* hp){
+void sys_hour(char* hp){
 	_IO_out(0x70, 0x04);
 	char hour=_IO_in(0x71);
 	*hp=hour;
 }
 
-void min(char* mp){
+void sys_min(char* mp){
 	_IO_out(0x70, 0x02);
 	char min=_IO_in(0x71);
 	*mp=min;
 }
+
+/* MEMORY FUNCTIONS */

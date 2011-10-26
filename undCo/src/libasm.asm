@@ -11,6 +11,9 @@ GLOBAL  __min
 GLOBAL  __setcolor
 GLOBAL  _mascaraPIC1,_mascaraPIC2,_Cli,_Sti
 GLOBAL  _debug
+GLOBAL malloc
+GLOBAL _lcr3
+GLOBAL _epag
 
 EXTERN  int_08
 EXTERN  int_09
@@ -62,6 +65,13 @@ _lidt:				; Carga el IDTR
         retn
 
 
+_epag:
+		mov eax, cr0
+		or eax, 80000000h
+		mov cr0, eax
+		ret
+		
+		
 _int_08_hand:				; Handler de INT 8 ( Timer tick)
         push    ds
         push    es                      ; Se salvan los registros
@@ -150,6 +160,17 @@ _IO_out:
 	out dx,al
 	ret
 
+malloc:
+	mov ecx, [esp+4]
+	mov ebx, 6
+	int 080h
+	ret
+	
+_lcr3:
+	mov eax, [esp+4]
+	mov cr3, eax
+	ret
+	
 ; Debug para el BOCHS, detiene la ejecució; Para continuar colocar en el BOCHSDBG: set $eax=0
 ;
 

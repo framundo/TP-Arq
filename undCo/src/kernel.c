@@ -4,6 +4,7 @@
 #include "systemcalls.c"
 #include "timertick.c"
 #include "shell.c"
+#include "paging.c"
 
 DESCR_INT idt[0xFF];			/* IDT de 10 entradas*/
 IDTR idtr;				/* IDTR */
@@ -13,6 +14,8 @@ kmain()
 Punto de entrada de cóo C.
 *************************************************/
 
+ 
+ 
 kmain() 
 {
         int i,num;
@@ -20,7 +23,7 @@ kmain()
 /* Borra la pantalla. */ 
 
 	k_clear_screen();
-
+	page_init();
 
 /* CARGA DE IDT CON LA RUTINA DE ATENCION DE IRQ0    */
 
@@ -45,6 +48,7 @@ kmain()
 	_Sti();	
 
 	/*Test*/
+
 	shell();
         while(1)
         {

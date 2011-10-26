@@ -11,10 +11,10 @@ typedef struct {
 	int second;
 } time_t;
 
-void write(char c);
-void read(char *c);
-void hour(char* hp);
-void min(char* mp);
-void setcolor(char c);
+void sys_write(char c);
+void sys_read(char *c);
+void sys_hour(char* hp);
+void sys_min(char* mp);
+void sys_setcolor(char c);
 
 #endif

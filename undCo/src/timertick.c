@@ -3,6 +3,8 @@
 
 /* TIMER TICK */
 
+int ticks=0;
+
 void int_08() {
     char *video = (char *) 0xb8000;
     int clock_index=(24*80+74)*2;
@@ -15,4 +17,13 @@ void int_08() {
 	video[clock_index+=2]=(':');
 	video[clock_index+=2]=(min/10+'0');
     video[clock_index+=2]=(min%10+'0');
+    ticks++;
+}
+
+void timer_wait(int ms){
+	int t=ms/55;
+	ticks=0;
+	while(ticks<t){
+		//nada
+	}
 }

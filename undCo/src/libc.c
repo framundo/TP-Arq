@@ -1,6 +1,7 @@
 #include "../include/kc.h"
 #include "../include/stdio.h"
-
+#define SCREEN 1
+#define SPEAKER 4
 /***************************************************************
 *k_clear_screen
 *
@@ -47,8 +48,15 @@ void setup_IDT_entry (DESCR_INT *item, byte selector, dword offset, byte access,
   item->cero = cero;
 }
 
+
+int out_stream = SCREEN;
+
 void putchar(char c){
-	__write(1,&c,1);
+	__write(out_stream,&c,1);
+}
+
+void set_out_stream(int i){
+	out_stream=i;
 }
 
 int strcmp(char* str1, char* str2){
@@ -235,3 +243,8 @@ void memcpy(void* dest, void* source, int count){
 		*(char*)(dest+i)=*(char*)(source+i);
 	}
 }
+
+/*void * malloc(int size)
+{
+	__malloc
+}*/
