@@ -15,6 +15,5 @@ void write(char c);
 void read(char *c);
 void hour(char* hp);
 void min(char* mp);
-void setcolor(char c);
 
 #endif
