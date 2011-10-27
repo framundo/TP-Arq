@@ -2,6 +2,7 @@ GLOBAL  _read_msw,_lidt
 GLOBAL  _int_08_hand
 GLOBAL  _int_80_hand
 GLOBAL  _int_09_hand
+GLOBAL  _int_14_hand
 GLOBAL  _IO_in
 GLOBAL	_IO_out
 GLOBAL  __write
@@ -14,10 +15,12 @@ GLOBAL  _debug
 GLOBAL malloc
 GLOBAL _lcr3
 GLOBAL _epag
+GLOBAL _fill_page1
 
 EXTERN  int_08
 EXTERN  int_09
 EXTERN  int_80
+EXTERN  page_fault
 
 
 SECTION .text
@@ -90,8 +93,7 @@ _int_08_hand:				; Handler de INT 8 ( Timer tick)
 _int_80_hand:				; Handler de INT 80 ( System calls)
         push ebp
 		mov ebp,esp
-                             ; Se salvan los registros
-        pusha                           ; Carga de DS y ES con el valor del selector
+        pusha
 
         call    int_80
 
@@ -112,8 +114,19 @@ _int_09_hand:				; Handler de INT 09 (Teclado)
 		popa
 		mov esp,ebp
 		pop ebp
-		
-		
+          
+        iret
+        
+_int_14_hand:				; Handler de INT 14 (PAGE FAULT)
+        push ebp
+		mov ebp,esp
+        pusha
+
+		jmp $
+        call    page_fault
+
+		mov esp,ebp
+		pop ebp
           
         iret
         
@@ -167,9 +180,29 @@ malloc:
 	ret
 	
 _lcr3:
-	mov eax, [esp+4]
+	;mov eax, [esp+4]
+	mov eax, 00200000h 
 	mov cr3, eax
 	ret
+
+; Mapeo 1:1 de la primer pagina
+_fill_page1:
+
+	 mov eax, 0x0
+	 mov ebx, 0x0
+	 .fill_table:
+		  mov ecx, ebx
+		  cmp eax, 0x00200000
+		  je .notpresent
+		  or ecx, 1
+.notpresent:  mov [0x00201000+eax*4], ecx
+		  add ebx, 4096
+		  inc eax
+		  cmp eax, 1024
+		  je .end
+		  jmp .fill_table
+	 .end:
+	 ret
 	
 ; Debug para el BOCHS, detiene la ejecució; Para continuar colocar en el BOCHSDBG: set $eax=0
 ;

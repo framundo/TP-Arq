@@ -23,13 +23,13 @@ kmain()
 /* Borra la pantalla. */ 
 
 	k_clear_screen();
-	page_init();
 
 /* CARGA DE IDT CON LA RUTINA DE ATENCION DE IRQ0    */
 
         setup_IDT_entry (&idt[0x08], 0x08, (dword)&_int_08_hand, ACS_INT, 0);
 		setup_IDT_entry (&idt[0x80], 0x08, (dword)&_int_80_hand, ACS_INT, 0);
 		setup_IDT_entry (&idt[0x09], 0x08, (dword)&_int_09_hand, ACS_INT, 0);
+		setup_IDT_entry (&idt[0x0E], 0x08, (dword)&_int_14_hand, ACS_INT, 0);
 
 /* Carga de IDTR    */
 
@@ -37,7 +37,8 @@ kmain()
 	idtr.base +=(dword) &idt;
 	idtr.limit = sizeof(idt)-1;
 	
-	_lidt (&idtr);	
+	_lidt (&idtr);
+	page_init();
 
 	_Cli();
 /* Habilito interrupcion de timer tick*/
@@ -48,7 +49,7 @@ kmain()
 	_Sti();	
 
 	/*Test*/
-
+	//print_pageinfo();
 	shell();
         while(1)
         {

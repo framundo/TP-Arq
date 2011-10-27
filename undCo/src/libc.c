@@ -120,6 +120,25 @@ char* itoa(int val, char* buffer)
 	return buffer;
 }
 
+char* xtoa(int mem, char* buffer){
+	int i;
+	int tmp;
+	buffer[0]='0';
+	buffer[1]='x';
+	for(i=0;i<8;i++){
+		tmp=(mem>>(i*4))&0x000F;
+		if(tmp<10){
+			tmp+='0';
+		}
+		else{
+			tmp+=-10+'A';
+		}
+		/*LITTLE ENDIAN*/
+		buffer[7-i+2]=(char)tmp;
+	}
+	buffer[10]=0;
+	return buffer;
+}
 int pow(int b,int e){
 	int i;
 	int ans=1;
@@ -168,6 +187,9 @@ void printf(char * format, ...)
 					break;
 				case 'c':
 					putchar(va_arg(args,char));
+					break;
+				case 'X':
+					prints(xtoa(va_arg(args, int), buffer));
 					break;
 			}
 		}
