@@ -1,7 +1,7 @@
 #include "../include/kc.h"
 #include "../include/stdio.h"
-#define SCREEN 1
-#define SPEAKER 4
+
+
 /***************************************************************
 *k_clear_screen
 *
@@ -49,7 +49,7 @@ void setup_IDT_entry (DESCR_INT *item, byte selector, dword offset, byte access,
 }
 
 
-int out_stream = SCREEN;
+int out_stream = 1;
 
 void putchar(char c){
 	__write(out_stream,&c,1);
