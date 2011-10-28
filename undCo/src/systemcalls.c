@@ -1,4 +1,5 @@
 #include "../include/kasm.h"
+#include "../include/kc.h"
 #include "../include/defs.h"
 #include "../include/systemcalls.h"
 
@@ -58,6 +59,22 @@ void update_cursor(void)
     _IO_out(0x3D5, index);
 }
 
+void scroll(){
+	if(cursor_y==24){
+		/* Scroll down*/
+		char *video = (char *) 0xb8000;
+		int i;
+		for(i=0;i<23*160;i++){
+			video[i]=video[i+160];
+		}
+		while(i<24*160){
+			video[i++]=' ';
+			video[i++]=WHITE_TXT;
+		}
+		cursor_y--;
+	}	
+}
+
 void sys_write(char c){
     char *video = (char *) 0xb8000;
     if(c=='\n'){
@@ -81,11 +98,38 @@ void sys_write(char c){
 		cursor_y++;
 		cursor_x=0;
 	}
+	scroll();
 	update_cursor();
 }
 
 void sys_setcolor(char c){
 	current_color=c;
+}
+
+/***************************************************************
+*k_clear_screen
+*
+* Borra la pantalla en modo texto color.
+****************************************************************/
+
+void k_clear_screen() 
+{
+	char *vidmem = (char *) 0xb8000;
+	unsigned int i=0;
+	while(i < (80*24*2))
+	{
+		vidmem[i]=' ';
+		i++;
+		vidmem[i]=WHITE_TXT;
+		i++;
+	};
+	while(i < (80*25*2))
+	{
+		vidmem[i]=' ';
+		i++;
+		vidmem[i]=BLACK_TXT;
+		i++;
+	};
 }
 
 /* BUFFER FUNCTIONS */
@@ -108,4 +152,24 @@ void sys_min(char* mp){
 	*mp=min;
 }
 
-/* MEMORY FUNCTIONS */
+/* IDT */
+
+/***************************************************************
+*setup_IDT_entry
+* Inicializa un descriptor de la IDT
+*
+*Recibe: Puntero a elemento de la IDT
+*	 Selector a cargar en el descriptor de interrupcion
+*	 Puntero a rutina de atencion de interrupcion	
+*	 Derechos de acceso del segmento
+*	 Cero
+****************************************************************/
+
+void setup_IDT_entry (DESCR_INT *item, byte selector, dword offset, byte access,
+			 byte cero) {
+  item->selector = selector;
+  item->offset_l = offset & 0xFFFF;
+  item->offset_h = offset >> 16;
+  item->access = access;
+  item->cero = cero;
+}
