@@ -105,12 +105,32 @@ void shell(){
 		else if(substr("outstream ", buffer)){
 			set_out_stream_command(buffer + 10);
 		}
-		else if(strcmp("memory", buffer)==0){
+		else if(substr("keyboard " buffer)){
+			if(strcmp("ESP", buffer+9)==0){
+				set_scan_code(1);
+			}else if(strcmp("ENG", buffer+9)==0){
+				set_scan_code(2);
+			}else{
+				printf("unsuported layout\n");
+			}
+		}
+		else if(strcmp("memory stat ", buffer)==0){
 			print_memory();
+		}
+		else if(substr("allocate memory ", buffer)){
+			if(strcmp("-0", buffer+15)==0){
+				calloc();
+			}else{
+				malloc();
+			}
+		}
+		else if(substr("free ", buffer)){
+			
 		}
 		else{
 			printf("Command not found\n");
 		}
+		
 	}
 }
 

@@ -39,7 +39,7 @@ kmain()
 	
 	_lidt (&idtr);
 	page_init();
-
+	kb_init();
 	_Cli();
 /* Habilito interrupcion de timer tick*/
 
