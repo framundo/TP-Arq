@@ -4,7 +4,6 @@
 #define SCREEN 1
 #define SPEAKER 4
 
-void set_out_stream(int i);
 
 
 char color(char* color_name){
@@ -24,6 +23,13 @@ void set_out_stream_command(char* c){
 	}else{
 		printf("invalid out stream\n");
 	}
+}
+
+void print_memory(){
+	//int s = stack_count();
+	int h = heap_count();
+	//printf("\nSTACK:\n %d bytes used\n", s);
+	printf("\n HEAP:\n %d pages used -> %d bytes\n", h, h*4096);
 }
 
 void shell(){
@@ -71,6 +77,9 @@ void shell(){
 		}
 		else if(substr("outstream ", buffer)){
 			set_out_stream_command(buffer + 10);
+		}
+		else if(strcmp("memory", buffer)==0){
+			print_memory();
 		}
 		else{
 			printf("Command not found\n");

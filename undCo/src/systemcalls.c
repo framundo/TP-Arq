@@ -2,6 +2,7 @@
 #include "../include/kc.h"
 #include "../include/defs.h"
 #include "../include/systemcalls.h"
+#include "../include/paging.h"
 
 #define WIDTH 80
 
@@ -35,10 +36,15 @@ void int_80(REG registers) {
 			c=(char*)registers.ecx;
 			sys_setcolor(*c);
 			break;
-		/*case 6:
-			i=(int)registers.ecx;
-			registers.eax=sys_malloc(i);
-	*/}  
+		case 6:
+			registers.eax=(int)sys_malloc();
+			break;
+		case 7:
+			registers.eax=(int)sys_calloc();
+		case 8:
+			i=registers.ecx;
+			sys_free((void*)i);
+	}  
 }
 
 /* SCREEN FUNCTIONS */

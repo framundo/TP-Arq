@@ -12,10 +12,13 @@ GLOBAL  __min
 GLOBAL  __setcolor
 GLOBAL  _mascaraPIC1,_mascaraPIC2,_Cli,_Sti
 GLOBAL  _debug
-GLOBAL malloc
+GLOBAL __malloc
+GLOBAL __calloc
+GLOBAL __free
 GLOBAL _lcr3
 GLOBAL _epag
 GLOBAL _fill_page1
+GLOBAL __stack_count
 
 EXTERN  int_08
 EXTERN  int_09
@@ -173,9 +176,19 @@ _IO_out:
 	out dx,al
 	ret
 
-malloc:
-	mov ecx, [esp+4]
+__malloc:
 	mov ebx, 6
+	int 080h
+	ret
+	
+__calloc:
+	mov ebx, 7
+	int 080h
+	ret
+	
+__free:
+	mov ebx, 8
+	mov ecx, [esp+4]
 	int 080h
 	ret
 	
@@ -219,3 +232,9 @@ vuelve:	mov     ax, 1
 	pop     bp
         retn
 
+__stack_count:
+	mov eax, ss
+	mov ebx, esp
+	sub eax,ebx
+	ret
+	

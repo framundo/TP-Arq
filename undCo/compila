@@ -3,10 +3,10 @@ rm -rf *
 nasm -f aout ../src/libasm.asm -o libasm.o
 nasm -f aout ../src/kstart.asm -o kstart.o
 nasm -f aout ../src/loader.asm -o kstart.o
-gcc  -m32 -c ../src/kernel.c -o kernel.o -fno-builtin -fno-stack-protector 
+gcc   -m32 -c ../src/kernel.c -o kernel.o -fno-builtin -fno-stack-protector 
 gcc  -m32 -c ../src/systemcalls.c -o systemcalls.o -fno-builtin -fno-stack-protector 
-gcc  -m32 -c ../src/keyboard.c -o keyboard.o -fno-builtin -fno-stack-protector 
+gcc   -m32 -c ../src/keyboard.c -o keyboard.o -fno-builtin -fno-stack-protector 
 gcc  -m32 -c ../src/timertick.c -o timertick.o -fno-builtin -fno-stack-protector 
-gcc  -m32 -c ../src/libc.c  -o libc.o -fno-builtin -fno-stack-protector 
-gcc  -m32 -c ../src/paging.c  -o paging.o -fno-builtin -fno-stack-protector 
+gcc   -m32 -c ../src/libc.c  -o libc.o -fno-builtin -fno-stack-protector 
+gcc   -m32 -c ../src/paging.c  -o paging.o -fno-builtin -fno-stack-protector 
 ld -m elf_i386 -T ../src/link.ld -o kernel.bin kernel.o kstart.o libc.o libasm.o 

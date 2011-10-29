@@ -10,6 +10,10 @@ void set_out_stream(int i){
 	out_stream=i;
 }
 
+int stack_count(){
+	return __stack_count();
+}
+
 int strcmp(char* str1, char* str2){
 	int ans;
 	int i;
@@ -217,7 +221,17 @@ void memcpy(void* dest, void* source, int count){
 	}
 }
 
-/*void * malloc(int size)
+void * malloc()
 {
-	__malloc
-}*/
+	__malloc();
+}
+
+void * calloc()
+{
+	__calloc();
+}
+
+void free(void* page)
+{
+	__free(page);
+}
