@@ -114,7 +114,7 @@ void shell(){
 				printf("unsuported layout\n");
 			}
 		}
-		else if(strcmp("memory stat ", buffer)==0){
+		else if(strcmp("memory status", buffer)==0){
 			print_memory();
 		}
 		else if(substr("allocate memory ", buffer)){
