@@ -59,6 +59,9 @@ char* itoa(int val, char* buffer)
 		val=-val;
 	}
 	start=pos;
+	if(val==0){
+		buffer[pos++]='0';
+	}
 	while(val!=0){
 		buffer[pos++]=val%10 + '0';
 		val/=10;
@@ -223,12 +226,12 @@ void memcpy(void* dest, void* source, int count){
 
 void * malloc()
 {
-	__malloc();
+	return __malloc();
 }
 
 void * calloc()
 {
-	__calloc();
+	return __calloc();
 }
 
 void free(void* page)

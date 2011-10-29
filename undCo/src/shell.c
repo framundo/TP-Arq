@@ -26,10 +26,10 @@ void set_out_stream_command(char* c){
 }
 
 void print_memory(){
-	//int s = stack_count();
+	int s = stack_count();
 	int h = heap_count();
-	//printf("\nSTACK:\n %d bytes used\n", s);
-	printf("\n HEAP:\n %d pages used -> %d bytes\n", h, h*4096);
+	printf("\nSTACK:\n %d bytes used\n", s);
+	printf("\n HEAP:\n %d pages used -> %d bytes\n\n", h, h*4096);
 }
 
 void shell(){
@@ -79,7 +79,9 @@ void shell(){
 			set_out_stream_command(buffer + 10);
 		}
 		else if(strcmp("memory", buffer)==0){
+			void*m=malloc();
 			print_memory();
+			free(m);
 		}
 		else{
 			printf("Command not found\n");
