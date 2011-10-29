@@ -7,10 +7,37 @@
 
 
 char color(char* color_name){
-	if(strcmp("black",color_name)==0){
-		return 0x70;
-	}
-	else{
+	if(strcmp("blue",color_name)==0){
+		return 0x01;
+	}else if(strcmp("green",color_name)==0){
+		return 0x02;
+	}else if(strcmp("cyan",color_name)==0){
+		return 0x03;
+	}else if(strcmp("red",color_name)==0){
+		return 0x04;
+	}else if(strcmp("magenta",color_name)==0){
+		return 0x05;
+	}else if(strcmp("brown",color_name)==0){
+		return 0x06;
+	}else if(strcmp("light gray",color_name)==0){
+		return 0x07;
+	}else if(strcmp("dark gray",color_name)==0){
+		return 0x08;
+	}else if(strcmp("light blue",color_name)==0){
+		return 0x09;
+	}else if(strcmp("light green",color_name)==0){
+		return 0x0A;
+	}else if(strcmp("light cyan",color_name)==0){
+		return 0x0B;
+	}else if(strcmp("light red",color_name)==0){
+		return 0x0C;
+	}else if(strcmp("light magenta",color_name)==0){
+		return 0x0D;
+	}else if(strcmp("light brown",color_name)==0){
+		return 0x0E;
+	}else if(strcmp("white",color_name)==0){
+		return 0x0F;
+	}else{
 		return 0;
 	}
 }
@@ -37,7 +64,7 @@ void shell(){
 	char * s;
 	char buffer[MAX_CMD_SIZE];
 	int i;
-	char shell_color=0x05;
+	char shell_color=0x09;
 	char user_color=0x07;
 																					
 	while(1){
@@ -79,10 +106,6 @@ void shell(){
 			set_out_stream_command(buffer + 10);
 		}
 		else if(strcmp("memory", buffer)==0){
-<<<<<<< HEAD
-=======
-			void* m=(void*)malloc();
->>>>>>> ca962a5612689459daa3415dc62040bcef27b6e9
 			print_memory();
 		}
 		else{
