@@ -224,14 +224,14 @@ void memcpy(void* dest, void* source, int count){
 	}
 }
 
-void * malloc()
+void* malloc()
 {
-	return __malloc();
+	return (void*)__malloc();
 }
 
-void * calloc()
+void* calloc()
 {
-	return __calloc();
+	return (void*)__calloc();
 }
 
 void free(void* page)
