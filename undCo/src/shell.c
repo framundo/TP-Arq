@@ -79,6 +79,10 @@ void shell(){
 			set_out_stream_command(buffer + 10);
 		}
 		else if(strcmp("memory", buffer)==0){
+<<<<<<< HEAD
+=======
+			void* m=(void*)malloc();
+>>>>>>> ca962a5612689459daa3415dc62040bcef27b6e9
 			print_memory();
 		}
 		else{

@@ -42,7 +42,7 @@ void _IO_in(void* address);
 
 void __hour(char* hp);
 void* __malloc();
-void* __calloc():
+void* __calloc();
 void __free(void* i);
 int __stack_count();
 
