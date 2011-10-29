@@ -195,13 +195,13 @@ _lcr3:
 ; Mapeo 1:1 de la primer pagina
 _fill_page1:
 
-	 mov eax, 0x0
-	 mov ebx, 0x0
+	 mov eax, 0
+	 mov ebx, 0
 	 .fill_table:
 		  mov ecx, ebx
-		  cmp eax, 513
+		  cmp eax, 530
 		  jg .notpresent
-		  or ecx, 3
+		  or ecx, 1
 .notpresent:  mov [201000h+eax*4], ecx
 		  add ebx, 4096
 		  inc eax

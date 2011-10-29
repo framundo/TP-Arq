@@ -1,26 +1,28 @@
 #define MEM_START 0x00200000
 #define PAGE_SIZE 4096
+#define KERNEL_PAGES 530
+#define USER_PAGES 1024-KERNEL_PAGES
 
 int* dir = (void*)MEM_START;
 int** page_table = (void*)MEM_START + PAGE_SIZE;
-char page_present[510];
-
-void page_init(){
-	int i;
-	for(i=0; i<510; i++){
-		page_present[i]=0;
-	}
-	_lcr3(dir);
-	*dir=((int)page_table/PAGE_SIZE)<<12;
-	(*dir)=(*dir)|0x00000001;
-	_fill_page1();
-	_epag();
-}
+char page_present[USER_PAGES];
 
 void print_pageinfo(){
 	printf("Directory adress: %X\n",dir);
 	printf("Page table adress: %X\n", page_table);
 	printf("Directory entry: %X\n", *dir);
+}
+
+void page_init(){
+	int i;
+	for(i=0; i<USER_PAGES; i++){
+		page_present[i]=0;
+	}
+	_lcr3(dir);
+	*dir=(int)page_table;
+	(*dir)=(*dir)|0x00000001;
+	_fill_page1();
+	_epag();
 }
 
 void * sys_malloc()
@@ -29,8 +31,8 @@ void * sys_malloc()
 	for(i=0; i<510; i++){
 		if(page_present[i]==0){
 			page_present[i]=1;
-			page_table[i+514]=(int*)((int)(page_table[i+514])|0x00000001);
-			return (void*)((i+514)*PAGE_SIZE);
+			page_table[i+KERNEL_PAGES]=(int*)((int)(page_table[i+KERNEL_PAGES])|0x00000001);
+			return (void*)((i+KERNEL_PAGES)*PAGE_SIZE);
 		}
 	}
 	return 0;
@@ -46,15 +48,15 @@ void * sys_calloc(){
 }
 
 void sys_free(void * page){
-	int i=(int)page/PAGE_SIZE - 514;
+	int i=(int)page/PAGE_SIZE - KERNEL_PAGES;
 	page_present[i] = 0;
-	page_table[i+514]=(int*)((int)(page_table[i+514])&0xFFFFFFFE);
+	page_table[i+KERNEL_PAGES]=(int*)((int)(page_table[i+514])&0xFFFFFFFE);
 }
 
 int heap_count(){
 	int count=0;
 	int i;
-	for(i=0; i<510; i++){
+	for(i=0; i<USER_PAGES; i++){
 		if(page_present[i]==1){
 			count++;
 		}
