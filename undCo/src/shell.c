@@ -79,9 +79,7 @@ void shell(){
 			set_out_stream_command(buffer + 10);
 		}
 		else if(strcmp("memory", buffer)==0){
-			void*m=malloc();
 			print_memory();
-			free(m);
 		}
 		else{
 			printf("Command not found\n");
