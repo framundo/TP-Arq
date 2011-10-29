@@ -117,15 +117,17 @@ void shell(){
 		else if(strcmp("memory status", buffer)==0){
 			print_memory();
 		}
-		else if(substr("allocate memory ", buffer)){
-			if(strcmp("-0", buffer+15)==0){
+		else if(substr("allocate memory", buffer)){
+			if(strcmp(" -0", buffer+14)==0){
 				calloc();
 			}else{
 				malloc();
 			}
+			printf("memory allocated\n");
 		}
 		else if(substr("free ", buffer)){
-			
+			//i=atoi(buffer+5);
+			//free(i);
 		}
 		else{
 			printf("Command not found\n");

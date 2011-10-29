@@ -41,9 +41,11 @@ void int_80(REG registers) {
 			break;
 		case 7:
 			registers.eax=(int)sys_calloc();
+			break;
 		case 8:
 			i=registers.ecx;
 			sys_free((void*)i);
+			break;
 	}  
 }
 
