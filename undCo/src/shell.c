@@ -105,7 +105,7 @@ void shell(){
 		else if(substr("outstream ", buffer)){
 			set_out_stream_command(buffer + 10);
 		}
-		else if(substr("keyboard " buffer)){
+		else if(substr("keyboard ", buffer)){
 			if(strcmp("ESP", buffer+9)==0){
 				set_scan_code(1);
 			}else if(strcmp("ENG", buffer+9)==0){
