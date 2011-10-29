@@ -2,7 +2,7 @@ GLOBAL  _read_msw,_lidt
 GLOBAL  _int_08_hand
 GLOBAL  _int_80_hand
 GLOBAL  _int_09_hand
-GLOBAL  _int_14_hand
+GLOBAL  _int_0E_hand
 GLOBAL  _IO_in
 GLOBAL	_IO_out
 GLOBAL  __write
@@ -120,17 +120,11 @@ _int_09_hand:				; Handler de INT 09 (Teclado)
           
         iret
         
-_int_14_hand:				; Handler de INT 14 (PAGE FAULT)
-        push ebp
-		mov ebp,esp
-        pusha
+_int_0E_hand:				; Handler de INT 14 (PAGE FAULT)
 
-		jmp $
-        call    page_fault
-
-		mov esp,ebp
-		pop ebp
-          
+        mov eax, cr2
+        push eax
+        call page_fault
         iret
         
 ;SYSTEM CALLS
@@ -201,11 +195,11 @@ _lcr3:
 ; Mapeo 1:1 de la primer pagina
 _fill_page1:
 
-	 mov eax, 0x0
-	 mov ebx, 0x0
+	 mov eax, 0
+	 mov ebx, 0
 	 .fill_table:
 		  mov ecx, ebx
-		  cmp eax, 513
+		  cmp eax, 530
 		  jg .notpresent
 		  or ecx, 1
 .notpresent:  mov [201000h+eax*4], ecx

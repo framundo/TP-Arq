@@ -149,12 +149,16 @@ void sys_read(char *c){
 void sys_hour(char* hp){
 	_IO_out(0x70, 0x04);
 	char hour=_IO_in(0x71);
+	/*BCD to binary*/
+	hour = ((hour / 16) * 10) + (hour & 0xf);
 	*hp=hour;
 }
 
 void sys_min(char* mp){
-	_IO_out(0x70, 0x02);
+	_IO_out(0x70,0x02);
 	char min=_IO_in(0x71);
+	/*BCD to binary*/
+	min = ((min / 16) * 10) + (min & 0xf);
 	*mp=min;
 }
 

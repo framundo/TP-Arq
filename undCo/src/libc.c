@@ -164,7 +164,7 @@ void printf(char * format, ...)
 char gethour(){
 	char h;
 	__hour(&h);	
-	h-=3;
+	//h-=3;
 	return h;
 }
 

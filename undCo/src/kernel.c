@@ -29,7 +29,7 @@ kmain()
         setup_IDT_entry (&idt[0x08], 0x08, (dword)&_int_08_hand, ACS_INT, 0);
 		setup_IDT_entry (&idt[0x80], 0x08, (dword)&_int_80_hand, ACS_INT, 0);
 		setup_IDT_entry (&idt[0x09], 0x08, (dword)&_int_09_hand, ACS_INT, 0);
-		setup_IDT_entry (&idt[0x0E], 0x08, (dword)&_int_14_hand, ACS_INT, 0);
+		setup_IDT_entry (&idt[0x0E], 0x08, (dword)&_int_0E_hand, ACS_INT, 0);
 
 /* Carga de IDTR    */
 
@@ -49,6 +49,13 @@ kmain()
 	_Sti();	
 
 	/*Test*/
+	print_pageinfo();
+	int j;
+	int* mem=(int*)0x201000;
+	for(j=519;j<525;j++){
+		printf("%X\n",mem[j]);
+	}
+	
 	shell();
         while(1)
         {
