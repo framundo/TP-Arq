@@ -38,9 +38,11 @@ int substr(char* str1, char* str2){
 
 char getchar(){
 	char c;
+	putchar('r');
 	do{
 		__read(0,&c,1);
 	}while(c==0);
+	putchar('-');
 	return c;
 }
 
@@ -164,7 +166,7 @@ void printf(char * format, ...)
 char gethour(){
 	char h;
 	__hour(&h);	
-	h-=3;
+	//h-=3;
 	return h;
 }
 

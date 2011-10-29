@@ -62,6 +62,15 @@ int heap_count(){
 	return count;
 }
 
-void page_fault(){
+void page_fault(int fault){
+	char* s="\npage fault";
+	int i;
+	for(i=0;i<11;i++){
+		sys_write(s[i]);
+	}
+	char p=(fault&0x00000001)+'0';
+	sys_write(p);
+	char w=((fault>>1)&0x00000001)+'0';
+	sys_write(w);
 	while(1);
 }
