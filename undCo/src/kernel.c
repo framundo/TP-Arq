@@ -49,7 +49,6 @@ kmain()
 	_Sti();	
 
 	/*Test*/
-	//print_pageinfo();
 	shell();
         while(1)
         {

@@ -192,10 +192,10 @@ _fill_page1:
 	 mov ebx, 0x0
 	 .fill_table:
 		  mov ecx, ebx
-		  cmp eax, 0x00200000
-		  je .notpresent
+		  cmp eax, 513
+		  jg .notpresent
 		  or ecx, 1
-.notpresent:  mov [0x00201000+eax*4], ecx
+.notpresent:  mov [201000h+eax*4], ecx
 		  add ebx, 4096
 		  inc eax
 		  cmp eax, 1024
