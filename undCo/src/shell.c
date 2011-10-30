@@ -21,7 +21,7 @@ char color(char* color_name){
 		return 0x06;
 	}else if(strcmp("light gray",color_name)==0){
 		return 0x07;
-	}else if(strcmp("dark gray",color_name)==0){
+	}else if(strcmp("gray",color_name)==0){
 		return 0x08;
 	}else if(strcmp("light blue",color_name)==0){
 		return 0x09;
@@ -29,11 +29,11 @@ char color(char* color_name){
 		return 0x0A;
 	}else if(strcmp("light cyan",color_name)==0){
 		return 0x0B;
-	}else if(strcmp("light red",color_name)==0){
+	}else if(strcmp("orange",color_name)==0){
 		return 0x0C;
-	}else if(strcmp("light magenta",color_name)==0){
+	}else if(strcmp("pink",color_name)==0){
 		return 0x0D;
-	}else if(strcmp("light brown",color_name)==0){
+	}else if(strcmp("yellow",color_name)==0){
 		return 0x0E;
 	}else if(strcmp("white",color_name)==0){
 		return 0x0F;
