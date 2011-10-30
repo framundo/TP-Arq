@@ -41,9 +41,11 @@ void int_80(REG registers) {
 			break;
 		case 7:
 			registers.eax=(int)sys_calloc();
+			break;
 		case 8:
 			i=registers.ecx;
 			sys_free((void*)i);
+			break;
 	}  
 }
 
@@ -88,7 +90,10 @@ void sys_write(char c){
 		cursor_x=0;
 	}
 	else if(c=='\b'){
-		if(cursor_x!=0) cursor_x--;
+		if(cursor_x!=0){
+			cursor_x--;
+			video[cursor_index()*2]=' ';
+		 }
 	}
 	else if(c=='\r'){
 		cursor_x=0;

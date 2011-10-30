@@ -49,13 +49,6 @@ kmain()
 	_Sti();	
 
 	/*Test*/
-	print_pageinfo();
-	int j;
-	int* mem=(int*)0x201000;
-	for(j=519;j<525;j++){
-		printf("%X\n",mem[j]);
-	}
-	
 	shell();
         while(1)
         {
