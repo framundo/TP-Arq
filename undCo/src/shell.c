@@ -126,8 +126,8 @@ void shell(){
 			printf("memory allocated\n");
 		}
 		else if(substr("free ", buffer)){
-			//i=atoi(buffer+5);
-			//free(i);
+			i=atoi(buffer+5);
+			free((i+530)*4096);
 		}
 		else{
 			printf("Command not found\n");
