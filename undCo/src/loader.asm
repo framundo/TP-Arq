@@ -12,6 +12,7 @@ CHECKSUM    equ -(MAGIC + FLAGS)        ; checksum required
 
 section .text
 align 4
+
 MultiBootHeader:
 	dd MAGIC
 	dd FLAGS
@@ -33,3 +34,5 @@ eokl	dd STACKSIZE + stack
 	align 32
 	stack:
 	resb STACKSIZE		; reserve 16k stack on a quadword boundary
+	
+
