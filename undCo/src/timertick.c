@@ -1,6 +1,6 @@
 #include "../include/kasm.h"
 #include "../include/defs.h"
-#include "../include/libc.h"
+#include "../include/int80.h"
 
 /* TIMER TICK */
 
@@ -11,8 +11,9 @@ void int_08() {
 		char *video = (char *) 0xb8000;
 		int clock_index=(24*80+74)*2;
 		
-		char hour=gethour();
-		char min=getmin();
+		char hour,min;
+		sys_hour(&hour);
+		sys_min(&min);
 		
 		video[clock_index+=2]=(hour/10+'0');
 		video[clock_index+=2]=(hour%10+'0');

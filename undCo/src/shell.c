@@ -84,7 +84,10 @@ void shell(){
 			}
 		}while(c!='\n');
 		buffer[i-1]=0;
-		if(substr("echo ", buffer)){
+		if(strlen(buffer)==0){
+			/*VACIO*/
+		}
+		else if(substr("echo ", buffer)){
 			printf("%s\n",buffer+5);
 		}
 		else if(substr("color ", buffer)){
