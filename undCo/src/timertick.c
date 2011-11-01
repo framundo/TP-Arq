@@ -4,10 +4,10 @@
 
 /* TIMER TICK */
 
-int ticks=0;
+int ticks=19*60;
 
 void int_08() {
-	if((ticks%19*60)==0){
+	if(ticks==19*60){
 		char *video = (char *) 0xb8000;
 		int clock_index=(24*80+74)*2;
 		
@@ -19,6 +19,7 @@ void int_08() {
 		video[clock_index+=2]=(':');
 		video[clock_index+=2]=(min/10+'0');
 		video[clock_index+=2]=(min%10+'0');
+		ticks=0;
 	}
     ticks++;
 }
