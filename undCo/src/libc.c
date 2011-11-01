@@ -1,4 +1,6 @@
-#include "../include/stdio.h"
+#include "../include/stdarg.h"
+#include "../include/libc.h"
+#include "../include/systemcalls.h"
 
 int out_stream = 1;
 
@@ -234,7 +236,15 @@ void* calloc()
 	return (void*)__calloc();
 }
 
-void free(void* page)
+int free(void* page)
 {
-	__free(page);
+	return __free(page);
+}
+
+int heap_count(){
+	return __heap_count();
+}
+
+void set_scancode(int i){
+	__set_scancode(i);
 }

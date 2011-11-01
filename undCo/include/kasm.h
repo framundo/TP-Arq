@@ -20,6 +20,9 @@ void		_int_08_hand();      /* Timer tick */
 void		_int_80_hand();      /* System calls */
 void 		_int_09_hand();
 void		_int_0E_hand();
+void		_lcr3(int* adress);
+void		_epag();
+void		_fill_page1();
 
 void		_debug (void);
 

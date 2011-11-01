@@ -1,10 +1,8 @@
 /* SHELL */
 
-#define MAX_CMD_SIZE 40
-#define SCREEN 1
-#define SPEAKER 4
-
-
+#include "../include/systemcalls.h"
+#include "../include/shell.h"
+#include "../include/libc.h"
 
 char color(char* color_name){
 	if(strcmp("blue",color_name)==0){
@@ -61,7 +59,6 @@ void print_memory(){
 
 void shell(){
 	char c;
-	char * s;
 	char buffer[MAX_CMD_SIZE];
 	int i;
 	char shell_color=0x09;
@@ -107,27 +104,32 @@ void shell(){
 		}
 		else if(substr("keyboard ", buffer)){
 			if(strcmp("ESP", buffer+9)==0){
-				set_scan_code(1);
+				set_scancode(1);
 			}else if(strcmp("ENG", buffer+9)==0){
-				set_scan_code(2);
+				set_scancode(2);
 			}else{
 				printf("unsuported layout\n");
 			}
 		}
-		else if(strcmp("memory status", buffer)==0){
+		else if(strcmp("memstat", buffer)==0){
 			print_memory();
 		}
-		else if(substr("allocate memory", buffer)){
-			if(strcmp(" -0", buffer+14)==0){
+		else if(substr("memalloc", buffer)){
+			if(strcmp(" -0", buffer+8)==0){
 				calloc();
 			}else{
 				malloc();
 			}
 			printf("memory allocated\n");
 		}
-		else if(substr("free ", buffer)){
-			i=atoi(buffer+5);
-			free((i+530)*4096);
+		else if(substr("memfree ", buffer)){
+			i=atoi(buffer+8);
+			if(free((void*)((i+530)*4096))){
+				printf("Memory freed\n");
+			}
+			else{
+				printf("Invalid argument\n");
+			}
 		}
 		else{
 			printf("Command not found\n");

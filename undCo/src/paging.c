@@ -3,15 +3,12 @@
 #define KERNEL_PAGES 530
 #define USER_PAGES 1024-KERNEL_PAGES
 
+#include "../include/kasm.h"
+#include "../include/int80.h"
+
 int* dir = (void*)MEM_START;
 int** page_table = (void*)MEM_START + PAGE_SIZE;
 char page_present[USER_PAGES];
-
-void print_pageinfo(){
-	printf("Directory adress: %X\n",dir);
-	printf("Page table adress: %X\n", page_table);
-	printf("Directory entry: %X\n", *dir);
-}
 
 void page_init(){
 	int i;
@@ -47,13 +44,18 @@ void * sys_calloc(){
 	return (void*)(p);
 }
 
-void sys_free(void * page){
+int sys_free(void * page){
 	int i=(int)page/PAGE_SIZE - KERNEL_PAGES;
-	page_present[i] = 0;
-	page_table[i+KERNEL_PAGES]=(int*)((int)(page_table[i+514])&0xFFFFFFFE);
+	if(i>=0&&i<USER_PAGES&&page_present[i]==1){
+		page_present[i] = 0;
+		page_table[i+KERNEL_PAGES]=(int*)((int)(page_table[i+514])&0xFFFFFFFE);
+		return 1;
+	} else{
+		return 0;
+	}
 }
 
-int heap_count(){
+int sys_heap_count(){
 	int count=0;
 	int i;
 	for(i=0; i<USER_PAGES; i++){

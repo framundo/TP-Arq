@@ -1,8 +1,10 @@
 #include "../include/kasm.h"
 #include "../include/kc.h"
 #include "../include/defs.h"
-#include "../include/systemcalls.h"
+#include "../include/int80.h"
 #include "../include/paging.h"
+#include "../include/kernel.h"
+#include "../include/kb.h"
 
 #define WIDTH 80
 
@@ -44,7 +46,14 @@ void int_80(REG registers) {
 			break;
 		case 8:
 			i=registers.ecx;
-			sys_free((void*)i);
+			registers.eax=sys_free((void*)i);
+			break;
+		case 9:
+			registers.eax=sys_heap_count();
+			break;
+		case 10:
+			i=registers.ecx;
+			sys_set_scancode(i);
 			break;
 	}  
 }

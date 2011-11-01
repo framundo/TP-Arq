@@ -1,5 +1,7 @@
 #include "../include/kasm.h"
 #include "../include/defs.h"
+#include "../include/kb.h"
+#include "../include/kernel.h"
 
 #define BUFFER_SIZE 10
 #define ESP 1
@@ -24,7 +26,7 @@ int kb_index=(24*80)*2;
 
 
 void kb_init(){
-	set_scan_code(ESP);
+	sys_set_scancode(ESP);
 }
 void buffer_putchar(char c){
 	buffer[head++]=c;
@@ -83,7 +85,7 @@ void int_09(){
 	}
 }
 
-set_scan_code(int i){
+void sys_set_scancode(int i){
 	if(i==ESP){
 		current_scan_code=ESP_SCAN_CODES;
 		current_shifted_scan_code=SHIFT_ESP_SCAN_CODES;

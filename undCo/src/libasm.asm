@@ -15,6 +15,8 @@ GLOBAL  _debug
 GLOBAL __malloc
 GLOBAL __calloc
 GLOBAL __free
+GLOBAL __heap_count
+GLOBAL  __set_scancode
 GLOBAL _lcr3
 GLOBAL _epag
 GLOBAL _fill_page1
@@ -182,6 +184,17 @@ __calloc:
 	
 __free:
 	mov ebx, 8
+	mov ecx, [esp+4]
+	int 080h
+	ret
+	
+__heap_count:
+	mov ebx, 9
+	int 080h
+	ret
+	
+__set_scancode:
+	mov ebx, 10
 	mov ecx, [esp+4]
 	int 080h
 	ret

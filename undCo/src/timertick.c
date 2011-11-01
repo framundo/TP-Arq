@@ -1,5 +1,6 @@
 #include "../include/kasm.h"
 #include "../include/defs.h"
+#include "../include/libc.h"
 
 /* TIMER TICK */
 

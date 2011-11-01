@@ -1,10 +1,11 @@
 #include "../include/kasm.h"
+#include "../include/kc.h"
 #include "../include/defs.h"
-#include "keyboard.c"
-#include "systemcalls.c"
-#include "timertick.c"
-#include "shell.c"
-#include "paging.c"
+#include "../include/kb.h"
+#include "../include/int80.h"
+#include "../include/timertick.h"
+#include "../include/shell.h"
+#include "../include/paging.h"
 
 DESCR_INT idt[0xFF];			/* IDT de 10 entradas*/
 IDTR idtr;				/* IDTR */
@@ -16,9 +17,8 @@ Punto de entrada de cóo C.
 
  
  
-kmain() 
+void kmain() 
 {
-        int i,num;
 
 /* Borra la pantalla. */ 
 
