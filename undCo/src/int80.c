@@ -3,6 +3,7 @@
 #include "../include/defs.h"
 #include "../include/int80.h"
 #include "../include/paging.h"
+#include "../include/speaker.h"
 #include "../include/kernel.h"
 #include "../include/kb.h"
 
@@ -19,8 +20,13 @@ void int_80(REG registers) {
 	int i;
 	switch(registers.ebx){
 		case 1:
+			i=registers.edx;
 			c=(char*)registers.ecx;
-			sys_write(*c);
+			if(i==1){
+				sys_print(*c);
+			}else if(i==4){
+				sys_speak(*c);
+			}
 			break;
 		case 2:
 			c=(char*)registers.ecx;
@@ -92,7 +98,8 @@ void scroll(){
 	}	
 }
 
-void sys_write(char c){
+
+void sys_print(char c){
     char *video = (char *) 0xb8000;
     if(c=='\n'){
 		cursor_y++;

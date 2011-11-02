@@ -3,6 +3,8 @@
 
 void printf(char * format, ...);
 void putchar(char c);
+void speak(char*c);
+void putc(int f, char c);
 void set_out_stream(int i);
 int stack_count();
 int strcmp(char* str1, char* str2);

@@ -133,6 +133,7 @@ _int_0E_hand:				; Handler de INT 14 (PAGE FAULT)
 
 __write:
 	mov ecx, [esp+8]
+	mov edx, [esp+4]
 	mov ebx, 1
 	int 080h
 	ret

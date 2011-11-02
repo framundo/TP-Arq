@@ -8,6 +8,10 @@ void putchar(char c){
 	__write(out_stream,&c,1);
 }
 
+void putc(int outstream, char c){
+	__write(outstream, &c, 1);
+}
+
 void set_out_stream(int i){
 	out_stream=i;
 }
@@ -50,6 +54,15 @@ void prints(char* string){
 	int i;
 	for(i=0;string[i];i++){
 		putchar(string[i]);
+	}
+}
+
+void speak(char*s)
+{
+	int i;
+	for(i=0; s[i];i++)
+	{
+		putc(4, s[i]);
 	}
 }
 char* itoa(int val, char* buffer)
