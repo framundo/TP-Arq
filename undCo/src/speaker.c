@@ -34,17 +34,9 @@ void sys_speak(char c)
 		}else{
 			short_beep();
 		}
-		//timer_wait(500);
-		i=0;
-		while(i<10000){
-			i++;
-		}
+		timer_wait(500);
 	}
-	i=0;
-		while(i<20000){
-			i++;
-		}
-	//timer_wait(750);
+	timer_wait(750);
 		
 }
 
@@ -71,22 +63,14 @@ void sys_speak(char c)
  
  void short_beep() {
  	 play_sound(10000);
- 	 //timer_wait(250);
- 	 int i=0;
-		while(i<10000){
-			i++;
-		}
+ 	 timer_wait(250);
  	 nosound();
  }
  
  
  void long_beep() {
  	 play_sound(10000);
- 	 //timer_wait(500);
-		int i=0;
-		while(i<20000){
-			i++;
-		}
+ 	 timer_wait(500);
  	 nosound();
  }
  

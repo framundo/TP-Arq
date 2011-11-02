@@ -23,6 +23,7 @@ GLOBAL _fill_page1
 GLOBAL __stack_count
 
 EXTERN  int_08
+EXTERN  eokl
 EXTERN  int_09
 EXTERN  int_80
 EXTERN  page_fault
@@ -99,9 +100,9 @@ _int_80_hand:				; Handler de INT 80 ( System calls)
         push ebp
 		mov ebp,esp
         pusha
-
+		sti
         call    int_80
-
+		cli
 		mov esp,ebp
 		pop ebp
           
@@ -194,6 +195,12 @@ __heap_count:
 	int 080h
 	ret
 	
+__stack_count:
+	mov eax, eokl
+	mov ebx, esp
+	sub eax,ebx
+	ret
+	
 __set_scancode:
 	mov ebx, 10
 	mov ecx, [esp+4]
@@ -240,9 +247,3 @@ vuelve:	mov     ax, 1
 	pop     bp
         retn
 
-__stack_count:
-	mov eax, ss
-	mov ebx, esp
-	sub eax,ebx
-	ret
-	
