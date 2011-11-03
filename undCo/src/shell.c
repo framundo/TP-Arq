@@ -102,9 +102,6 @@ void shell(){
 		else if(strcmp("time",buffer)==0){
 			printf("%d:%d\n",gethour(),getmin());
 		}
-		else if(substr("outstream ", buffer)){
-			set_out_stream_command(buffer + 10);
-		}
 		else if(substr("keyboard ", buffer)){
 			if(strcmp("ESP", buffer+9)==0){
 				set_scancode(1);
@@ -113,6 +110,9 @@ void shell(){
 			}else{
 				printf("unsuported layout\n");
 			}
+		}
+		else if(substr("speak ", buffer)){
+			speak(buffer+6);
 		}
 		else if(strcmp("memstat", buffer)==0){
 			print_memory();

@@ -11,7 +11,7 @@ typedef struct {
 	int second;
 } time_t;
 
-void sys_write(char c);
+void sys_print(char c);
 void sys_read(char *c);
 void sys_hour(char* hp);
 void sys_min(char* mp);

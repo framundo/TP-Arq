@@ -2,6 +2,6 @@
 #define __TT__
 
 void int_08();
-void time_wait(int ms);
+void timer_wait(int ms);
 
 #endif

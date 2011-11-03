@@ -31,4 +31,5 @@ void timer_wait(int ms){
 	while(ticks<t){
 		//nada
 	}
+	return;
 }

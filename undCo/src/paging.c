@@ -92,11 +92,11 @@ void page_fault(int fault){
 	char* s="\npage fault";
 	int i;
 	for(i=0;i<11;i++){
-		sys_write(s[i]);
+		sys_print(s[i]);
 	}
 	char p=(fault&0x00000001)+'0';
-	sys_write(p);
+	sys_print(p);
 	char w=((fault>>1)&0x00000001)+'0';
-	sys_write(w);
+	sys_print(w);
 	while(1);
 }
