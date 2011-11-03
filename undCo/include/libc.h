@@ -18,10 +18,11 @@ char getmin();
 char* gets(char* buffer);
 int scanf(const char* format, ...);
 void memcpy(void* dest, void* source, int count);
-void* malloc();
-void* calloc();
+void* malloc(int bytes);
+void* calloc(int bytes);
 int free(void* page);
 int heap_count();
 void set_scancode(int i);
+void memprint(int* adress);
 
 #endif

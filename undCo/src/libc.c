@@ -226,14 +226,14 @@ void memcpy(void* dest, void* source, int count){
 	}
 }
 
-void* malloc()
+void* malloc(int bytes)
 {
-	return (void*)__malloc();
+	return (void*)__malloc(bytes);
 }
 
-void* calloc()
+void* calloc(int bytes)
 {
-	return (void*)__calloc();
+	return (void*)__calloc(bytes);
 }
 
 int free(void* page)
@@ -247,4 +247,14 @@ int heap_count(){
 
 void set_scancode(int i){
 	__set_scancode(i);
+}
+
+void memprint(int* adress){
+	int i;
+	for(i=0;i<256;i++){
+		printf("%X",adress[i]);
+		if(i%5==0){
+			printf("\n");
+		}
+	}
 }

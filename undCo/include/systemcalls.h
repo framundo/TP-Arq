@@ -3,8 +3,8 @@
 
 void __hour(char* hp);
 void __min(char* mp);
-void* __malloc();
-void* __calloc();
+void* __malloc(int bytes);
+void* __calloc(int bytes);
 int __free(void* i);
 int __stack_count();
 void __setcolor(char* colorp);

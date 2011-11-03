@@ -39,10 +39,12 @@ void int_80(REG registers) {
 			sys_setcolor(*c);
 			break;
 		case 6:
-			registers.eax=(int)sys_malloc();
+			i=registers.ecx;
+			registers.eax=(int)sys_malloc(i);
 			break;
 		case 7:
-			registers.eax=(int)sys_calloc();
+			i=registers.ecx;
+			registers.eax=(int)sys_calloc(i);
 			break;
 		case 8:
 			i=registers.ecx;

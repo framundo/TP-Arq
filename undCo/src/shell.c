@@ -117,13 +117,25 @@ void shell(){
 		else if(strcmp("memstat", buffer)==0){
 			print_memory();
 		}
-		else if(substr("memalloc", buffer)){
-			if(strcmp(" -0", buffer+8)==0){
-				calloc();
+		else if(substr("memalloc ", buffer)){
+			i=atoi(buffer+9);
+			if(malloc(i)!=0){
+				printf("memory allocated\n");
 			}else{
-				malloc();
+				printf("not enough memory\n");
 			}
-			printf("memory allocated\n");
+		}
+		else if(substr("memcalloc ", buffer)){
+			i=atoi(buffer+10);
+			if(calloc(i)!=0){
+				printf("memory allocated\n");
+			}else{
+				printf("not enough memory\n");
+			}
+		}
+		else if(substr("memprint ", buffer)){
+			i=atoi(buffer+9);
+			memprint((int*)i);
 		}
 		else if(substr("memfree ", buffer)){
 			i=atoi(buffer+8);

@@ -174,11 +174,13 @@ _IO_out:
 
 __malloc:
 	mov ebx, 6
+	mov ecx, [esp+4]
 	int 080h
 	ret
 	
 __calloc:
 	mov ebx, 7
+	mov ecx, [esp+4]
 	int 080h
 	ret
 	
