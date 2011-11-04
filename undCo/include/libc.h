@@ -25,6 +25,6 @@ void* calloc(int bytes);
 int free(void* page);
 int heap_count();
 void set_scancode(int i);
-void memprint(int* adress);
+int pageprint(int page);
 
 #endif

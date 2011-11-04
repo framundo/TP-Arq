@@ -113,7 +113,7 @@ void shell(){
 			}else if(strcmp("ENG", buffer+9)==0){
 				set_scancode(2);
 			}else{
-				printf("unsuported layout\n");
+				printf("Unsuported layout\n");
 			}
 		}
 		else if(substr("speak ", buffer)){
@@ -125,22 +125,24 @@ void shell(){
 		else if(substr("memalloc ", buffer)){
 			i=atoi(buffer+9);
 			if(malloc(i)!=0){
-				printf("memory allocated\n");
+				printf("Memory allocated\n");
 			}else{
-				printf("not enough memory\n");
+				printf("Not enough memory\n");
 			}
 		}
 		else if(substr("memcalloc ", buffer)){
 			i=atoi(buffer+10);
 			if(calloc(i)!=0){
-				printf("memory allocated\n");
+				printf("Memory allocated\n");
 			}else{
-				printf("not enough memory\n");
+				printf("Not enough memory\n");
 			}
 		}
-		else if(substr("memprint ", buffer)){
-			i=atoi(buffer+9);
-			memprint((int*)i);
+		else if(substr("pageprint ", buffer)){
+			i=atoi(buffer+10);
+			if(pageprint(i)==0){
+				printf("Invalid argument");
+			}
 		}
 		else if(substr("memfree ", buffer)){
 			i=atoi(buffer+8);
