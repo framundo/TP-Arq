@@ -54,13 +54,14 @@ int shift=0;
 int caps=0;
 
 void int_09(){
-	int scanCode=_IO_in(0x60);
+	char scanCode=_IO_in(0x60);
 	if(scanCode & 0x80){
 		/*RELEASED KEY*/
-		if(scanCode==0xAA||scanCode==0xB6){
+		if(scanCode==(char)0xAA||scanCode==(char)0xB6){
 			/*SHIFT*/
 			shift=0;
 		}
+		
 	} else {
 		/*PRESSED KEY*/
 		if(scanCode==0x2a||scanCode==0x36){
@@ -75,10 +76,10 @@ void int_09(){
 			/*ORDINARY KEYS*/
 			char ascii;
 			if(caps==shift){
-				ascii=current_scan_code[scanCode];
+				ascii=current_scan_code[(int)scanCode];
 			}
 			else{
-				ascii=current_shifted_scan_code[scanCode];
+				ascii=current_shifted_scan_code[(int)scanCode];
 			}
 			buffer_putchar(ascii);
 		}
