@@ -23,6 +23,7 @@ void		_int_0E_hand();
 void		_lcr3(int* adress);
 void		_epag();
 void		_fill_page1();
+int		_sys_stack_count();
 
 void		_debug (void);
 

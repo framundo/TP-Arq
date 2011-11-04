@@ -1,6 +1,8 @@
 #ifndef _systemcalls_
 #define _systemcalls_
 
+extern int eokl;
+
 /* Tiempo*/
 typedef struct {
 	int day;
