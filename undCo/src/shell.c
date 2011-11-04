@@ -157,6 +157,9 @@ void shell(){
 		else if(strcmp("mastersword", buffer)==0){
 			print_zelda();
 		}
+		else if(strcmp("mario", buffer)==0){
+			print_mario();
+		}
 		else{
 			printf("Command not found\n");
 		}
