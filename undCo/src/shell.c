@@ -3,6 +3,8 @@
 #include "../include/systemcalls.h"
 #include "../include/shell.h"
 #include "../include/libc.h"
+#include "../include/extras.h"
+
 
 char color(char* color_name){
 	if(strcmp("blue",color_name)==0){
@@ -145,6 +147,9 @@ void shell(){
 			else{
 				printf("Invalid argument\n");
 			}
+		}
+		else if(strcmp("lostquote", buffer)==0){
+			printf("%s", get_quote());
 		}
 		else{
 			printf("Command not found\n");
