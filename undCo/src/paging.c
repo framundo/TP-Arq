@@ -94,9 +94,5 @@ void page_fault(int fault){
 	for(i=0;i<11;i++){
 		sys_print(s[i]);
 	}
-	char p=(fault&0x00000001)+'0';
-	sys_print(p);
-	char w=((fault>>1)&0x00000001)+'0';
-	sys_print(w);
 	while(1);
 }
