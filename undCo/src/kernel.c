@@ -6,6 +6,8 @@
 #include "../include/timertick.h"
 #include "../include/shell.h"
 #include "../include/paging.h"
+#include "../include/libc.h"
+#include "../include/extras.h"
 
 DESCR_INT idt[0xFF];			/* IDT de 10 entradas*/
 IDTR idtr;				/* IDTR */
@@ -40,6 +42,7 @@ void kmain()
 	_lidt (&idtr);
 	page_init();
 	kb_init();
+	srand(getmin());
 	_Cli();
 /* Habilito interrupcion de timer tick*/
 
@@ -47,7 +50,7 @@ void kmain()
         _mascaraPIC2(0xFF);
         
 	_Sti();	
-
+	
 	/*Test*/
 	shell();
         while(1)
