@@ -262,7 +262,11 @@ void set_scancode(int i){
 	__set_scancode(i);
 }
 
-void memprint(int* adress){
-	printf("%X",*adress);
-	
+int pageprint(int page){
+	if(page<0 || page>=1024-530){
+		return 0;
+	}
+	int* adress = (int*)((530+page)*4096);
+	printf("%X\n",*adress);
+	return 1;
 }
