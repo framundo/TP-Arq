@@ -25,6 +25,7 @@ void int_80(REG registers) {
 			if(i==1){
 				sys_print(*c);
 			}else if(i==4){
+				/*sys_print(*c);*/
 				sys_speak(*c);
 			}
 			break;

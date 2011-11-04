@@ -59,6 +59,7 @@ void sys_speak(char c)
 		return;
 	}
 	int i=0;
+	int sound;
 	for(i=0; CODES[index][i]; i++){
 		if(CODES[index][i]=='-'){
 			long_beep();
