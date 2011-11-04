@@ -1,54 +1,23 @@
-#include "../include/kc.h"
-#include "../include/stdio.h"
+#include "../include/stdarg.h"
+#include "../include/libc.h"
+#include "../include/systemcalls.h"
 
-/***************************************************************
-*k_clear_screen
-*
-* Borra la pantalla en modo texto color.
-****************************************************************/
-
-void k_clear_screen() 
-{
-	char *vidmem = (char *) 0xb8000;
-	unsigned int i=0;
-	while(i < (80*24*2))
-	{
-		vidmem[i]=' ';
-		i++;
-		vidmem[i]=WHITE_TXT;
-		i++;
-	};
-	while(i < (80*25*2))
-	{
-		vidmem[i]=' ';
-		i++;
-		vidmem[i]=BLACK_TXT;
-		i++;
-	};
-}
-
-/***************************************************************
-*setup_IDT_entry
-* Inicializa un descriptor de la IDT
-*
-*Recibe: Puntero a elemento de la IDT
-*	 Selector a cargar en el descriptor de interrupcion
-*	 Puntero a rutina de atencion de interrupcion	
-*	 Derechos de acceso del segmento
-*	 Cero
-****************************************************************/
-
-void setup_IDT_entry (DESCR_INT *item, byte selector, dword offset, byte access,
-			 byte cero) {
-  item->selector = selector;
-  item->offset_l = offset & 0xFFFF;
-  item->offset_h = offset >> 16;
-  item->access = access;
-  item->cero = cero;
-}
+int out_stream = 1;
 
 void putchar(char c){
-	__write(1,&c,1);
+	__write(out_stream,&c,1);
+}
+
+void putc(int outstream, char c){
+	__write(outstream, &c, 1);
+}
+
+void set_out_stream(int i){
+	out_stream=i;
+}
+
+int stack_count(){
+	return __stack_count();
 }
 
 int strcmp(char* str1, char* str2){
@@ -87,6 +56,15 @@ void prints(char* string){
 		putchar(string[i]);
 	}
 }
+
+void speak(char*s)
+{
+	int i;
+	for(i=0; s[i];i++)
+	{
+		putc(4, s[i]);
+	}
+}
 char* itoa(int val, char* buffer)
 {	
 	int pos=0, start;
@@ -96,6 +74,9 @@ char* itoa(int val, char* buffer)
 		val=-val;
 	}
 	start=pos;
+	if(val==0){
+		buffer[pos++]='0';
+	}
 	while(val!=0){
 		buffer[pos++]=val%10 + '0';
 		val/=10;
@@ -112,6 +93,25 @@ char* itoa(int val, char* buffer)
 	return buffer;
 }
 
+char* xtoa(int mem, char* buffer){
+	int i;
+	int tmp;
+	buffer[0]='0';
+	buffer[1]='x';
+	for(i=0;i<8;i++){
+		tmp=(mem>>(i*4))&0x000F;
+		if(tmp<10){
+			tmp+='0';
+		}
+		else{
+			tmp+=-10+'A';
+		}
+		/*LITTLE ENDIAN*/
+		buffer[7-i+2]=(char)tmp;
+	}
+	buffer[10]=0;
+	return buffer;
+}
 int pow(int b,int e){
 	int i;
 	int ans=1;
@@ -161,6 +161,9 @@ void printf(char * format, ...)
 				case 'c':
 					putchar(va_arg(args,char));
 					break;
+				case 'X':
+					prints(xtoa(va_arg(args, int), buffer));
+					break;
 			}
 		}
 		else
@@ -176,7 +179,7 @@ void printf(char * format, ...)
 char gethour(){
 	char h;
 	__hour(&h);	
-	h-=3;
+	//h-=3;
 	return h;
 }
 
@@ -233,5 +236,38 @@ void memcpy(void* dest, void* source, int count){
 	int i;
 	for(i=0;i<count;i++){
 		*(char*)(dest+i)=*(char*)(source+i);
+	}
+}
+
+void* malloc(int bytes)
+{
+	return (void*)__malloc(bytes);
+}
+
+void* calloc(int bytes)
+{
+	return (void*)__calloc(bytes);
+}
+
+int free(void* page)
+{
+	return __free(page);
+}
+
+int heap_count(){
+	return __heap_count();
+}
+
+void set_scancode(int i){
+	__set_scancode(i);
+}
+
+void memprint(int* adress){
+	int i;
+	for(i=0;i<256;i++){
+		printf("%X",adress[i]);
+		if(i%5==0){
+			printf("\n");
+		}
 	}
 }

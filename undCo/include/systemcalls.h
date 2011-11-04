@@ -1,20 +1,34 @@
-#ifndef _systemcalls_
-#define _systemcalls_
+#ifndef __SYSCALLS__
+#define __SYSCALLS__
 
-/* Tiempo*/
-typedef struct {
-	int day;
-	int month;
-	int year;
-	int hour;
-	int minute;
-	int second;
-} time_t;
+void __hour(char* hp);
+void __min(char* mp);
+void* __malloc(int bytes);
+void* __calloc(int bytes);
+int __free(void* i);
+int __stack_count();
+void __setcolor(char* colorp);
+void __set_scancode(int i);
+int __heap_count();
 
-void write(char c);
-void read(char *c);
-void hour(char* hp);
-void min(char* mp);
-void setcolor(char c);
+/* __write
+*
+* Recibe como parametros:
+* - File Descriptor
+* - Buffer del source
+* - Cantidad
+*
+**/
+int __write(int fd, const void* buffer, int count);
+
+/* __read
+*
+* Recibe como parametros:
+* - File Descriptor
+* - Buffer a donde escribir
+* - Cantidad
+*
+**/
+int __read(int fd, void* buffer, int count);
 
 #endif
