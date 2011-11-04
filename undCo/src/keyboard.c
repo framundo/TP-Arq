@@ -75,6 +75,7 @@ void int_09(){
 		else if(scanCode==0x3A){
 			/*CAPS*/
 			caps=(caps+1)%2;
+			update_leds((char)4);
 		}
 		else{
 			/*ORDINARY KEYS*/
@@ -105,5 +106,19 @@ void sys_set_scancode(int i){
 		video[kb_index+2]='N';
 		video[kb_index+4]='G';
 	}
-	
 }
+
+void update_leds(char status)
+{
+ 	while((_IO_in(0x64)&2)!=0)
+ 	{
+	}
+ 	_IO_out(0x60,0xED);
+ 
+ 	while((_IO_in(0x64)&2)!=0)
+ 	{
+	}
+ 	_IO_out(0x60,status);
+}
+
+
