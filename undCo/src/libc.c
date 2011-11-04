@@ -263,11 +263,6 @@ void set_scancode(int i){
 }
 
 void memprint(int* adress){
-	int i;
-	for(i=0;i<256;i++){
-		printf("%X",adress[i]);
-		if(i%5==0){
-			printf("\n");
-		}
-	}
+	printf("%X",*adress);
+	
 }

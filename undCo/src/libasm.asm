@@ -21,6 +21,7 @@ GLOBAL _lcr3
 GLOBAL _epag
 GLOBAL _fill_page1
 GLOBAL __stack_count
+GLOBAL _sys_stack_count
 
 EXTERN  int_08
 EXTERN  eokl
@@ -196,8 +197,13 @@ __heap_count:
 	mov ebx, 9
 	int 080h
 	ret
-	
+
 __stack_count:
+	mov ebx, 11
+	int 080h
+	ret
+	
+_sys_stack_count:
 	mov eax, eokl
 	mov ebx, esp
 	sub eax,ebx

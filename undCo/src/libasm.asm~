@@ -1,12 +1,32 @@
 GLOBAL  _read_msw,_lidt
 GLOBAL  _int_08_hand
 GLOBAL  _int_80_hand
+GLOBAL  _int_09_hand
+GLOBAL  _int_0E_hand
+GLOBAL  _IO_in
+GLOBAL	_IO_out
 GLOBAL  __write
+GLOBAL  __read
+GLOBAL  __hour
+GLOBAL  __min
+GLOBAL  __setcolor
 GLOBAL  _mascaraPIC1,_mascaraPIC2,_Cli,_Sti
 GLOBAL  _debug
+GLOBAL __malloc
+GLOBAL __calloc
+GLOBAL __free
+GLOBAL __heap_count
+GLOBAL  __set_scancode
+GLOBAL _lcr3
+GLOBAL _epag
+GLOBAL _fill_page1
+GLOBAL __stack_count
 
 EXTERN  int_08
+EXTERN  eokl
+EXTERN  int_09
 EXTERN  int_80
+EXTERN  page_fault
 
 
 SECTION .text
@@ -54,6 +74,13 @@ _lidt:				; Carga el IDTR
         retn
 
 
+_epag:
+		mov eax, cr0
+		or eax, 80000000h
+		mov cr0, eax
+		ret
+		
+		
 _int_08_hand:				; Handler de INT 8 ( Timer tick)
         push    ds
         push    es                      ; Se salvan los registros
@@ -70,30 +97,44 @@ _int_08_hand:				; Handler de INT 8 ( Timer tick)
         iret
 
 _int_80_hand:				; Handler de INT 80 ( System calls)
-        push    ds
-        push    es                      ; Se salvan los registros
-        pusha                           ; Carga de DS y ES con el valor del selector
-        mov     ax, 10h			; a utilizar.
-        mov     ds, ax
-        mov     es, ax
-
-	push ebp
-	mov ebp,esp
-
-	push	ecx
-	push 	ebx
+        push ebp
+		mov ebp,esp
+        pusha
+		sti
         call    int_80
-
-	mov esp,ebp
-	pop ebp
-           
-	popa                            
-        pop     es
-        pop     ds
+		cli
+		mov esp,ebp
+		pop ebp
+          
         iret
+        
+_int_09_hand:				; Handler de INT 09 (Teclado)
+        push ebp
+		mov ebp,esp
+		pusha 
+
+        call    int_09
+		mov	al,20h			; Envio de EOI generico al PIC
+		out	20h,al
+		
+		popa
+		mov esp,ebp
+		pop ebp
+          
+        iret
+        
+_int_0E_hand:				; Handler de INT 14 (PAGE FAULT)
+
+        mov eax, cr2
+        push eax
+        call page_fault
+        iret
+        
+;SYSTEM CALLS
 
 __write:
 	mov ecx, [esp+8]
+	mov edx, [esp+4]
 	mov ebx, 1
 	int 080h
 	ret
@@ -103,8 +144,101 @@ __read:
 	mov ebx, 2
 	int 080h
 	ret
+	
+__hour:
+	mov ecx, [esp+4]
+	mov ebx, 3
+	int 080h
+	ret
+	
+__min:
+	mov ecx, [esp+4]
+	mov ebx, 4
+	int 080h
+	ret
 
+__setcolor:
+	mov ecx, [esp+4]
+	mov ebx, 5
+	int 080h
+	ret
 
+_IO_in:
+	mov dx, [esp+4]
+	in al, dx
+	ret
+	
+_IO_out:
+	mov al, [esp+8]
+	mov dx, [esp+4]
+	out dx,al
+	ret
+
+__malloc:
+	mov ebx, 6
+	mov ecx, [esp+4]
+	int 080h
+	ret
+	
+__calloc:
+	mov ebx, 7
+	mov ecx, [esp+4]
+	int 080h
+	ret
+	
+__free:
+	mov ebx, 8
+	mov ecx, [esp+4]
+	int 080h
+	ret
+	
+__heap_count:
+	mov ebx, 9
+	int 080h
+	ret
+
+__stack_count:
+	mov ebx, 11
+	int 080h
+	ret
+	
+_sys_stack_count:
+	mov eax, eokl
+	mov ebx, esp
+	sub eax,ebx
+	ret
+	
+__set_scancode:
+	mov ebx, 10
+	mov ecx, [esp+4]
+	int 080h
+	ret
+	
+_lcr3:
+	;mov eax, [esp+4]
+	mov eax, 00200000h 
+	mov cr3, eax
+	ret
+
+; Mapeo 1:1 de la primer pagina
+_fill_page1:
+
+	 mov eax, 0
+	 mov ebx, 0
+	 .fill_table:
+		  mov ecx, ebx
+		  cmp eax, 530
+		  jg .notpresent
+		  or ecx, 1
+.notpresent:  mov [201000h+eax*4], ecx
+		  add ebx, 4096
+		  inc eax
+		  cmp eax, 1024
+		  je .end
+		  jmp .fill_table
+	 .end:
+	 ret
+	
 ; Debug para el BOCHS, detiene la ejecució; Para continuar colocar en el BOCHSDBG: set $eax=0
 ;
 
@@ -119,3 +253,4 @@ vuelve:	mov     ax, 1
 	pop	ax
 	pop     bp
         retn
+
