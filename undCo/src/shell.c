@@ -151,6 +151,9 @@ void shell(){
 		else if(strcmp("lostquote", buffer)==0){
 			printf("%s", get_quote());
 		}
+		else if(strcmp("mastersword", buffer)==0){
+			print_zelda();
+		}
 		else{
 			printf("Command not found\n");
 		}

@@ -1,4 +1,6 @@
 #include "../include/extras.h"
+#include "../include/libc.h"
+
 
 char * quotes[] = {"Maybe I keep seeing you die because I'm supposed to take your place.\nDESMOND HUME\n", 
 "You and I both know... you're not supposed to take my place, brother.\nDESMOND HUME\n", 
@@ -33,4 +35,26 @@ int rand(void)
 void srand(unsigned int seed)
 {
 	next = seed;
+}
+
+void print_zelda()
+{
+	printf(" \n"
+  "           __ \n"
+  "           || \n"
+  "           || \n"
+  "        ___||___ \n"
+  "      _/#______#\\_ \n"
+  "     / _/ | || \\_ \\ \n"
+  "    |_|   | ||   |_|   \n"
+  "          | || \n"
+  "          | || \n"
+  "          | || \n"
+  "     _____|_||_______ \n"
+  "    /      /\\     \\  \\ \n"
+  "   #      /__\\     #  #  \n"
+  "  /      /\\  /\\     \\  \\ \n"
+  " #      /__\\/__\\     #  # \n"
+  "/_____________________\\__\\ \n \n"
+	);
 }
