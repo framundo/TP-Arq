@@ -89,6 +89,9 @@ void shell(){
 		if(strlen(buffer)==0){
 			/*VACIO*/
 		}
+		else if(strcmp("who",buffer)==0){
+			printf("\n************\nF Alderete\nF Ramundo\nC Mader Blanco\n************\n\n");
+		}
 		else if(substr("echo ", buffer)){
 			printf("%s\n",buffer+5);
 		}
