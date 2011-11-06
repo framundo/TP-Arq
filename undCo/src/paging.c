@@ -63,14 +63,20 @@ void * sys_calloc(int bytes){
 }
 
 int sys_free(void * adress){
-	int i=(int)adress/PAGE_SIZE - KERNEL_PAGES;
+	int j,i=(int)adress/PAGE_SIZE - KERNEL_PAGES;
+	j=i-1;
 	if(i>=0&&i<USER_PAGES&&page_present[i]!=0){
 		int actual_num=page_present[i];
-		while(page_present[i]==actual_num){
+		while(i<USER_PAGES && page_present[i]==actual_num){
 			page_present[i] = 0;
 			page_table[i+KERNEL_PAGES]=(int*)((int)(page_table[i+514])&0xFFFFFFFE);
 			i++;
-		}	
+		}
+		while(j>=0 && page_present[j]==actual_num){
+			page_present[j]=0;
+			page_table[j+KERNEL_PAGES]=(int*)((int)(page_table[j+514])&0xFFFFFFFE);
+			j--;
+		}
 		return 1;
 	}else{
 		return 0;
