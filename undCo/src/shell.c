@@ -105,8 +105,13 @@ void shell(){
 		  }
 		}
 		else if(strcmp("time",buffer)==0){
-			printf("%d:%d\n",gethour(),getmin());
-		}
+			int m=getmin(), h=gethour();
+			if(m<10){
+				printf("%d:0%d\n",h,i);
+			}else{
+				printf("%d:%d\n",h,i);
+			}
+		}	
 		else if(substr("keyboard ", buffer)){
 			if(strcmp("ESP", buffer+9)==0){
 				set_scancode(1);
