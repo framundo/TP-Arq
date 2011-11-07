@@ -80,11 +80,13 @@ void shell(){
 				}
 			}
 			else{
-				putchar(c);
-				buffer[i]=c;
-				i++;
+				if(i<MAX_CMD_SIZE||c=='\n'){
+				  putchar(c);
+				  buffer[i]=c;
+				  i++;
+				}
 			}
-		}while(c!='\n' && c<MAX_CMD_SIZE);
+		}while(c!='\n');
 		buffer[i-1]=0;
 		if(strlen(buffer)==0){
 			/*VACIO*/
