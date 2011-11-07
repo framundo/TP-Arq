@@ -84,7 +84,7 @@ void shell(){
 				buffer[i]=c;
 				i++;
 			}
-		}while(c!='\n');
+		}while(c!='\n' && c<MAX_CMD_SIZE);
 		buffer[i-1]=0;
 		if(strlen(buffer)==0){
 			/*VACIO*/

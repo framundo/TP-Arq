@@ -1,7 +1,7 @@
 #ifndef __SHELL__
 #define __SHELL__
 
-#define MAX_CMD_SIZE 100
+#define MAX_CMD_SIZE 40
 #define SCREEN 1
 #define SPEAKER 4
 
