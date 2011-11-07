@@ -75,7 +75,7 @@ void int_09(){
 		else if(scanCode==0x3A){
 			/*CAPS*/
 			caps=(caps+1)%2;
-			update_leds(4);
+			update_leds(caps<<2);
 		}
 		else{
 			/*ORDINARY KEYS*/
