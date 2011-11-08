@@ -1,39 +1,19 @@
-#include "../include/extras.h"
 #include "../include/libc.h"
-
-void generator(int valores[]);
-
-int dificultad(void);
-
-void
-check_input(int pasos , int valores[] , int digitos);
+#include "../include/extras.h"
+#include "../include/mastermind.h"
 
 int
-check2( char input[] , int digitos );
-
-int
-main(void)
+mastermind()
 {	
 	int valores[10] = {0,1,2,3,4,5,6,7,8,9};
 	
-	int DIF_SET , digitos;
+	int DIF_SET;
 	
 	generator(valores);
 	
-	//DIF_SET = dificultad();
-	DIF_SET=1;
-	do
-	{
-		scanf("Ingrese digitos: ", &digitos);
-		
-		if ( digitos < 0 && digitos > 10 )
-		{
-			printf("ERROR!!\n");
-		}
+	DIF_SET = dificultad();
 	
-	} while( digitos < 0 && digitos > 10 );
-	
-	check_input(DIF_SET,valores,digitos);
+	check_input(DIF_SET,valores);
 	
 	return 0;
 }
@@ -43,7 +23,7 @@ generator(int valores[])
 {
 	int i , j , aux;
 	
-	srand(4);
+	srand(getmin());
 	
 	for ( i = 0 ; i < 5 ; i++ )
 	{
@@ -55,11 +35,11 @@ generator(int valores[])
 		
 		valores[j] = aux;
 		
-		printf("%d",valores[i]);
+		//printf("%d",valores[i]);
 	}
 	putchar('\n');
 }
-/*
+
 int
 dificultad(void)
 {
@@ -67,7 +47,8 @@ dificultad(void)
 	
 	do
 	{
-		dif = getint("<<Choose your destiny>>\n(1)Please, I'm too young to die\n(2)Bring it on bitch!!\n(3)Nightmare\n");
+		printf("<<Choose your destiny>>\n(1)Please, I'm too young to die\n(2)Bring it on bitch!!\n(3)Nightmare\n");
+		scanf("%d", &dif);
 	}
 	while( dif != 1 && dif != 2 && dif != 3);
 	
@@ -82,17 +63,14 @@ dificultad(void)
 
 	return dif;
 }
-*/
+
 void
-check_input(int pasos , int valores[] , int digitos)
+check_input(int pasos , int valores[])
 {
-	char input[digitos+2];
+	char input[7] = {0};
 	
-	int i ,j , bien = 0 , regular = 0 , valido, len =0;
+	int i ,j , bien = 0 , regular = 0 , valido;
 	
-	char c;
-	
-	//input = calloc( (digitos + 2) , sizeof(char) );
 	
 	do
 	{
@@ -108,25 +86,20 @@ check_input(int pasos , int valores[] , int digitos)
 			
 			scanf("%s",input);
 			
-			if ( strlen(input) != digitos )
+			if ( strlen(input) != 5 )
 			{
 				valido = 0;
 			}
 			
 			else
 			{
-				valido = check2(input,digitos);
+				valido = check2(input);
 			}
 			
-			
-			while ( getchar() != '\n' )
-			{
-				;
-			}
 			
 			if ( !valido )
 			{
-				printf("ERROR!!\n");
+				printf("ERROR!! Enter a valid number\n");
 			}
 			
 			
@@ -152,37 +125,39 @@ check_input(int pasos , int valores[] , int digitos)
 		printf("Good %d\n",bien);
 		
 		printf("Regular %d\n",regular);
+		
+		
 	
 		pasos--;
     }
     while( pasos > 0 && bien != 5);
     
-    if ( bien == 5 )
+	if ( bien == 5 )
 	{
 		printf("You won this one, you'll be mine next time!!\n");
 	}
 	
 	else
 	{
-		printf("LOSER!! Try again if you dare bitch!!\n");
+		printf("LOSER!! Try again if you dare sucker!!\n");
 	}
 }
 
 int
-check2( char input[] , int digitos )
+check2( char input[] )
 {
 	int i , j;
 	
-	for ( i = 0 ; i < digitos ; i++ )
+	for ( i = 0 ; i < 5 ; i++ )
 	{
-		for ( j = i + 1 ; j < digitos ; j++ )
+		for ( j = i + 1 ; j < 5 ; j++ )
 		{
 			if ( input[i] == input[j] )
 			{
 				return 0;
 			}
 			
-			else if ( !(input[j]<='9'&& input[j]>='0') )
+			else if ( !(input[j]<='9' && input[j]>='0' ) )
 			{	
 				return 0;
 			}

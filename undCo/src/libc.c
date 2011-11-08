@@ -200,7 +200,8 @@ char getmin(){
 char* gets(char* buffer){
 	do{
 		*buffer=getchar();
-	}while(*buffer++!=' ');
+		putchar(*buffer);
+	}while(*buffer!=' '&&*buffer++!='\n');
 	*(buffer-1)=0;
 	return buffer;
 }
@@ -222,6 +223,7 @@ int scanf(const char* format, ...){
 				case 'c':
 					*(char*)p=getchar();
 					count++;
+					putchar(*(char*)p);
 					break;
 				case 's':
 					gets((char*)p);
