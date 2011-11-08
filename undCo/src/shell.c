@@ -147,11 +147,13 @@ void shell(){
 		  }
 		}
 		else if(strcmp("time",buffer)==0){
-			int m=getmin(), h=gethour();
+			int m, h;
+			m=getmin();
+			h=gethour();
 			if(m<10){
-				printf("%d:0%d\n",h,i);
+				printf("%d:0%d\n",h,m);
 			}else{
-				printf("%d:%d\n",h,i);
+				printf("%d:%d\n",h,m);
 			}
 		}	
 		else if(substr("keyboard ", buffer)){
