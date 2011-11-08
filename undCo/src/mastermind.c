@@ -78,14 +78,15 @@ check_input(int pasos , int valores[])
 		
 		regular = 0;
 		
-		//printf("%d more and you'll be out of this...\n" , pasos);
+		printf("%d more and you'll be out of this...\n" , pasos);
 		
 		do
 		{
 			valido = 1;
 			
 			scanf("%s",input);
-			printf("%s\n", input);
+			
+			printf("\nThe number %s has ", input);
 			if ( strlen(input) != 5 )
 			{
 				valido = 0;
@@ -99,7 +100,7 @@ check_input(int pasos , int valores[])
 			
 			if ( !valido )
 			{
-				printf("ERROR!! Enter a valid number\n");
+				printf("a mistake!! Enter a valid number\n");
 			}
 			
 			
@@ -122,9 +123,9 @@ check_input(int pasos , int valores[])
 			}
 		}
 		
-		printf("Good %d\n",bien);
+		printf("\n%d good numbers\n",bien);
 		
-		printf("Regular %d\n",regular);
+		printf("%d regular numbers\n\n",regular);
 		
 		
 	

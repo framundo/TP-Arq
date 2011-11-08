@@ -201,7 +201,7 @@ char* gets(char* buffer){
 	do{
 		*buffer=getchar();
 		putchar(*buffer);
-	}while(*buffer!=' '&&*buffer++!='\n');
+	}while(*buffer++!=' '&&*(buffer-1)!='\n');
 	*(buffer-1)=0;
 	return buffer;
 }
