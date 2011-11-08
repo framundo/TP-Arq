@@ -111,6 +111,9 @@ void shell(){
 					printf("%s",buffer);
 				}
 			}
+			else if(c=='\x12'){
+				//do nothing
+			}
 			else{
 				if(i<MAX_CMD_SIZE||c=='\n'){
 				  putchar(c);
