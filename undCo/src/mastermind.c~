@@ -86,11 +86,6 @@ check_input(int pasos , int valores[])
 			
 			scanf("%s",input);
 			
-			if(strcmp(input,"q")==0)
-			{
-				return;
-			}
-			
 			printf("\nThe number %s has ", input);
 			if ( strlen(input) != 5 )
 			{
