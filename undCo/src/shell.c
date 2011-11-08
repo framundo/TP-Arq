@@ -62,8 +62,8 @@ void print_memory(){
 
 void shell(){
 	char c;
-	char buffer[MAX_CMD_SIZE];
-	char last_cmd[CMD_MEMORY][MAX_CMD_SIZE];
+	char buffer[MAX_CMD_SIZE+1];
+	char last_cmd[CMD_MEMORY][MAX_CMD_SIZE+1];
 	int i,mem;
 	char shell_color=0x09;
 	char user_color=0x07;
@@ -214,6 +214,9 @@ void shell(){
 		else if(strcmp("mario", buffer)==0){
 			print_mario();
 		}
+		else if(strcmp("help", buffer)==0){
+			help();
+		}
 		else if(strcmp("mastermind",buffer)==0){
 			mastermind();
 		}
@@ -222,5 +225,27 @@ void shell(){
 		}
 		
 	}
+}
+
+void help(){
+  printf("/*** COMMAND LIST ***/\n\n"
+	 " -time  (prints the localtime)\n"
+	 " -who  (info about the developers)\n"
+	 " -echo <message>  (prints message)\n"
+	 " -speak <message>  (outputs the message through the PC speaker)\n"
+	 " -color <color>  (changes the font color to the specified one)\n"
+	 "       possible colors: red, blue, green, yellow, white, pink, orange, ...\n"
+	 " -keyboard <layout>  (changes the keyboard layout to the specified one)\n"
+	 "       possible layouts: ESP, ENG\n"
+	 " -memalloc <bytes>  (allocates pages to contain as many bytes as specified)\n"
+	 " -memcalloc <bytes>  (similar to memalloc, inits the memory with zeros)\n"
+	 " -memfree <page_n>  (frees the user page specified if allocated)\n"
+	 " -memstat  (prints info about memory status: stack size and heap size)\n"
+	 " -pageprint <page_n>  (prints the first 16 bytes of the allocated user page)\n"
+	 " -lostquote  (prints a random quote from the famous TV series LOST)\n"
+	 " -mario  (displays the face of Mario)\n"
+	 " -mastersword  (displays Link's Sword)\n"
+	 " -mastermind  (launches Mastermind game)\n\n"
+	 "/** For more information please refer to the User Manual **/\n");
 }
 

@@ -77,7 +77,7 @@ void int_09(){
 			caps=(caps+1)%2;
 			update_leds(caps<<2);
 		}
-		else if(scanCode!=0x0F && scanCode!=0x1D && scanCode!=0x38 && scanCode!=0x53 && scanCode!=0x47 && scanCode!=0x49 && scanCode!=0x4F && scanCode!=0x51){
+		else if(scanCode!=0x01 && scanCode!=0x0F && scanCode!=0x1D && scanCode!=0x38 && scanCode!=0x53 && scanCode!=0x47 && scanCode!=0x49 && scanCode!=0x4F && scanCode!=0x51){
 			/*ORDINARY KEYS*/
 			char ascii;
 			if(!shift){
