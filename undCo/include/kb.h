@@ -7,5 +7,7 @@ char buffer_getchar();
 void buffer_putchar(char c);
 void sys_set_scancode(int i);
 void update_leds(char status);
+char to_upper(char c);
+char to_lower(char c);
 
 #endif

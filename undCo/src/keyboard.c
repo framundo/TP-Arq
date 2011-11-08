@@ -77,19 +77,39 @@ void int_09(){
 			caps=(caps+1)%2;
 			update_leds(caps<<2);
 		}
-		else{
+		else if(scanCode!=0x0F && scanCode!=0x1D && scanCode!=0x38 && scanCode!=0x53 && scanCode!=0x47 && scanCode!=0x49 && scanCode!=0x4F && scanCode!=0x51){
 			/*ORDINARY KEYS*/
 			char ascii;
-			if(caps==shift){
+			if(!shift){
 				ascii=current_scan_code[(int)scanCode];
+				if(caps){
+					ascii=to_upper(ascii);
+				}
 			}
 			else{
 				ascii=current_shifted_scan_code[(int)scanCode];
+				if(caps){
+					ascii=to_lower(ascii);
+				}
 			}
 			buffer_putchar(ascii);
 		}
 	}
 	_Sti();
+}
+
+char to_upper(char c){
+	if(c>='a'&&c<='z'){
+		c=c-'a'+'A';
+	}
+	return c;
+}
+
+char to_lower(char c){
+	if(c>='A'&&c<='Z'){
+		c=c-'A'+'a';
+	}
+	return c;
 }
 
 void sys_set_scancode(int i){
