@@ -78,14 +78,14 @@ check_input(int pasos , int valores[])
 		
 		regular = 0;
 		
-		printf("%d more and you'll be out of this...\n" , pasos);
+		//printf("%d more and you'll be out of this...\n" , pasos);
 		
 		do
 		{
 			valido = 1;
 			
 			scanf("%s",input);
-			
+			printf("%s\n", input);
 			if ( strlen(input) != 5 )
 			{
 				valido = 0;
