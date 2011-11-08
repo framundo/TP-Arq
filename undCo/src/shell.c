@@ -62,21 +62,53 @@ void print_memory(){
 void shell(){
 	char c;
 	char buffer[MAX_CMD_SIZE];
-	int i;
+	char last_cmd[CMD_MEMORY][MAX_CMD_SIZE];
+	int i,mem;
 	char shell_color=0x09;
 	char user_color=0x07;
-																					
+	
+	for(mem=0;mem<CMD_MEMORY;mem++){
+		last_cmd[mem][0]=0;
+	}
+																
 	while(1){
 		__setcolor(&shell_color);
 		printf("Shell->: ");
 		__setcolor(&user_color);
 		i=0;
+		mem=-1;
 		do{
 			c=getchar();
 			if(c=='\b'){
 				if(i>0){
 					i--;
 					putchar(c);
+				}
+			}
+			else if(c=='\x11'){
+				/*UP*/
+				if(mem<CMD_MEMORY-1){
+					mem++;
+					int j;
+					for(j=0;j<i;j++){
+						putchar('\b');
+					}
+					i=strlen(last_cmd[mem]);
+					strcpy(buffer,last_cmd[mem]);
+					printf("%s",buffer);
+				}
+			}
+			else if(c=='\x13'){
+				/*DOWN*/
+				if(mem>0){
+					mem--;
+					int j;
+					for(j=0;j<i;j++){
+						putchar('\b');
+					}
+					i=strlen(last_cmd[mem]);
+					strcpy(buffer,last_cmd[mem]);
+					printf("%s",buffer);
 				}
 			}
 			else{
@@ -88,6 +120,14 @@ void shell(){
 			}
 		}while(c!='\n');
 		buffer[i-1]=0;
+		/*GUARDAR COMANDOS ANTERIORES*/
+		int k;
+		for(k=CMD_MEMORY-2;k>=0;k--){
+			strcpy(last_cmd[k+1],last_cmd[k]);
+		}
+		strcpy(last_cmd[0],buffer);
+		
+		
 		if(strlen(buffer)==0){
 			/*VACIO*/
 		}

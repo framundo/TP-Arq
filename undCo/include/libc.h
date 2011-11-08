@@ -9,6 +9,7 @@ void set_out_stream(int i);
 int stack_count();
 int strcmp(char* str1, char* str2);
 int substr(char* str1, char* str2);
+void strcpy(char* dest, char* src);
 char getchar();
 char* itoa(int val, char* buffer);
 char* xtoa(int mem, char* buffer);

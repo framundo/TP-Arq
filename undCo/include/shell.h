@@ -2,6 +2,7 @@
 #define __SHELL__
 
 #define MAX_CMD_SIZE 100
+#define CMD_MEMORY 5
 #define SCREEN 1
 #define SPEAKER 4
 
