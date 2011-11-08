@@ -271,10 +271,14 @@ void set_scancode(int i){
 }
 
 int pageprint(int page){
+	int i;
+	int* adress = (int*)((530+page)*4096);
 	if(page<0 || page>=1024-530){
 		return 0;
 	}
-	int* adress = (int*)((530+page)*4096);
-	printf("%X\n",*adress);
+	for(i=0; i<4; i++){
+		printf("%X\n",*adress);
+		adress++;
+	}
 	return 1;
 }
