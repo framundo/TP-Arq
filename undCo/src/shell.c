@@ -4,6 +4,7 @@
 #include "../include/shell.h"
 #include "../include/libc.h"
 #include "../include/extras.h"
+#include "../include/mastermind.h"
 
 
 char color(char* color_name){
@@ -69,8 +70,7 @@ void shell(){
 	
 	for(mem=0;mem<CMD_MEMORY;mem++){
 		last_cmd[mem][0]=0;
-	}
-																
+	}													
 	while(1){
 		__setcolor(&shell_color);
 		printf("Shell->: ");
@@ -110,6 +110,9 @@ void shell(){
 					strcpy(buffer,last_cmd[mem]);
 					printf("%s",buffer);
 				}
+			}
+			else if(c=='\x12'){
+				//do nothing
 			}
 			else{
 				if(i<MAX_CMD_SIZE||c=='\n'){
@@ -210,6 +213,9 @@ void shell(){
 		}
 		else if(strcmp("mario", buffer)==0){
 			print_mario();
+		}
+		else if(strcmp("mastermind",buffer)==0){
+			mastermind();
 		}
 		else{
 			printf("Command not found\n");

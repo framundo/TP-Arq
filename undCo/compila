@@ -10,6 +10,7 @@ gcc  -Wall -m32 -c ../src/timertick.c -o timertick.o -fno-builtin -fno-stack-pro
 gcc   -Wall -m32 -c ../src/libc.c  -o libc.o -fno-builtin -fno-stack-protector 
 gcc   -Wall -m32 -c ../src/paging.c  -o paging.o -fno-builtin -fno-stack-protector
 gcc   -Wall -m32 -c ../src/shell.c  -o shell.o -fno-builtin -fno-stack-protector 
+gcc   -Wall -m32 -c ../src/mastermind.c  -o mastermind.o -fno-builtin -fno-stack-protector 
 gcc   -Wall -m32 -c ../src/speaker.c  -o speaker.o -fno-builtin -fno-stack-protector
 gcc   -Wall -m32 -c ../src/extras.c  -o extras.o -fno-builtin -fno-stack-protector  
-ld -m elf_i386 -T ../src/link.ld -o kernel.bin kstart.o kernel.o libc.o libasm.o paging.o keyboard.o int80.o timertick.o shell.o speaker.o extras.o
+ld -m elf_i386 -T ../src/link.ld -o kernel.bin kstart.o kernel.o libc.o libasm.o paging.o keyboard.o int80.o timertick.o shell.o speaker.o extras.o mastermind.o
